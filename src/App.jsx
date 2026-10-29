@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import AppList from "./components/AppList";
@@ -24,7 +24,29 @@ function App() {
   const [isGlobalSearch, setIsGlobalSearch] = useState(false);
   const [selectedAppForDetails, setSelectedAppForDetails] = useState(null);
 
-  // New UI/UX States
+  // Dark / Light Mode state
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("freight-theme");
+    if (saved) return saved === "dark";
+    return (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("freight-theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("freight-theme", "light");
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+
+  // View & Filter States
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "table"
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("name-asc");
@@ -116,7 +138,7 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8fafc] text-slate-800 antialiased overflow-hidden font-sans">
+    <div className="flex h-screen bg-slate-50 dark:bg-[#0A0D14] text-slate-800 dark:text-slate-100 antialiased overflow-hidden font-sans">
       {/* Sidebar Navigation */}
       <Sidebar
         activeTab={activeTab}
@@ -125,14 +147,14 @@ function App() {
       />
 
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-slate-50/50 dark:bg-[#0A0D14]">
         {activeTab === "about" ? (
           <About />
         ) : activeTab === "usage" ? (
           <Usage />
         ) : (
           <>
-            {/* Rich Header with search, category pills, view toggles */}
+            {/* Rich Header with search, category pills, view toggles, dark mode */}
             <Header
               activeTab={activeTab}
               searchQuery={searchQuery}
@@ -149,6 +171,8 @@ function App() {
               categoryCounts={categoryCounts}
               sortBy={sortBy}
               onSortChange={setSortBy}
+              darkMode={darkMode}
+              onToggleDarkMode={toggleDarkMode}
             />
 
             {/* Application List (Grid or Table) */}

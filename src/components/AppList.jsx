@@ -44,12 +44,14 @@ const AppList = ({
 
   if (apps.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[340px] p-8 text-center bg-white/40 rounded-3xl border border-dashed border-slate-200">
-        <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mb-3">
+      <div className="flex flex-col items-center justify-center min-h-[360px] p-8 text-center bg-white/40 dark:bg-[#131926]/40 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800/80">
+        <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 text-2xl mb-3 shadow-inner">
           📦
         </div>
-        <h4 className="text-base font-bold text-slate-800 mb-1">No matching applications</h4>
-        <p className="text-xs text-slate-500 max-w-sm mb-4">
+        <h4 className="text-base font-bold text-slate-800 dark:text-slate-200 mb-1">
+          No matching applications
+        </h4>
+        <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4 leading-relaxed">
           {searchQuery
             ? `No applications matched "${searchQuery}". Try a different keyword or category.`
             : "No applications found in this package manager."}
@@ -57,7 +59,7 @@ const AppList = ({
         {onClearFilters && searchQuery && (
           <button
             onClick={onClearFilters}
-            className="px-4 py-2 text-xs font-semibold bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors"
+            className="px-4 py-2 text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors"
           >
             Clear Filters
           </button>
@@ -99,10 +101,9 @@ const AppList = ({
           />
         ))}
       </div>
-
       {(hasMore || loadingMore) && (
-        <div ref={observerTargetRef} className="col-span-full py-8 text-center">
-          <Loader type="spinner" text="" fullHeight={false} spinnerSizeClass="h-6 w-6" />
+        <div ref={observerTargetRef} className="py-8 text-center">
+          <Loader type="spinner" text="Loading more..." fullHeight={false} spinnerSizeClass="h-6 w-6" />
         </div>
       )}
     </div>

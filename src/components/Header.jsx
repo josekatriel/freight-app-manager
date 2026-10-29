@@ -7,9 +7,9 @@ import {
   FiGlobe,
   FiGrid,
   FiList,
-  FiArrowUp,
-  FiArrowDown,
   FiSliders,
+  FiSun,
+  FiMoon,
 } from "react-icons/fi";
 
 const Header = ({
@@ -28,6 +28,8 @@ const Header = ({
   categoryCounts = {},
   sortBy,
   onSortChange,
+  darkMode,
+  onToggleDarkMode,
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -44,18 +46,18 @@ const Header = ({
   };
 
   return (
-    <div className="bg-white/60 backdrop-blur-md border-b border-slate-200/60 px-6 sm:px-8 pt-5 pb-3 sticky top-0 z-20">
+    <div className="bg-white/80 dark:bg-[#0E131F]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 pt-5 pb-3.5 sticky top-0 z-20 transition-colors duration-200">
       {/* Top row */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-4">
         {/* Title & App count */}
-        <div className="min-w-[180px]">
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+        <div className="min-w-[190px]">
+          <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
             <span>{isGlobalSearch ? "All Applications" : getTabTitle(activeTab)}</span>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 font-mono border border-slate-200/60 dark:border-slate-700/60">
               {appCount}
             </span>
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
             {isGlobalSearch
               ? "All installed package ecosystems on this system"
               : `Active packages managed by ${activeTab.toUpperCase()}`}
@@ -75,16 +77,16 @@ const Header = ({
           />
         </div>
 
-        {/* Right controls: View Toggle, Sort, Global, Refresh */}
+        {/* Right controls: View Toggle, Sort, Global, Theme, Refresh */}
         <div className="flex items-center gap-2 justify-end flex-wrap">
           {/* View Mode Toggle: Grid vs List */}
-          <div className="flex items-center bg-slate-100/80 p-0.5 rounded-xl border border-slate-200/60">
+          <div className="flex items-center bg-slate-100/90 dark:bg-slate-800/80 p-0.5 rounded-xl border border-slate-200/70 dark:border-slate-700/60">
             <button
               onClick={() => onViewModeChange("grid")}
               className={`p-2 rounded-lg transition-all ${
                 viewMode === "grid"
-                  ? "bg-white text-indigo-600 shadow-xs font-semibold"
-                  : "text-slate-500 hover:text-slate-800"
+                  ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs font-semibold"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
               title="Grid View"
             >
@@ -94,8 +96,8 @@ const Header = ({
               onClick={() => onViewModeChange("table")}
               className={`p-2 rounded-lg transition-all ${
                 viewMode === "table"
-                  ? "bg-white text-indigo-600 shadow-xs font-semibold"
-                  : "text-slate-500 hover:text-slate-800"
+                  ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs font-semibold"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
               title="Table / List View"
             >
@@ -108,7 +110,7 @@ const Header = ({
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 py-2 pl-3 pr-7 rounded-xl border border-slate-200/80 shadow-xs appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="text-xs font-semibold bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 py-2 pl-3 pr-7 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-xs appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               title="Sort applications"
             >
               <option value="name-asc">Name (A → Z)</option>
@@ -116,7 +118,7 @@ const Header = ({
               <option value="size-desc">Size (Largest first)</option>
               <option value="size-asc">Size (Smallest first)</option>
             </select>
-            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <FiSliders className="w-3 h-3" />
             </div>
           </div>
@@ -127,7 +129,7 @@ const Header = ({
             className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
               isGlobalSearch
                 ? "bg-indigo-600 text-white shadow-xs"
-                : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80 shadow-xs"
+                : "bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 shadow-xs"
             }`}
             title="Search across all package managers"
           >
@@ -135,15 +137,24 @@ const Header = ({
             <span className="hidden sm:inline">All Sources</span>
           </button>
 
+          {/* Theme Toggle (Dark / Light) */}
+          <button
+            onClick={onToggleDarkMode}
+            className="p-2 bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-xs border border-slate-200/80 dark:border-slate-700 transition-all text-slate-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400"
+            title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {darkMode ? <FiSun className="w-4 h-4 text-amber-400" /> : <FiMoon className="w-4 h-4 text-slate-600" />}
+          </button>
+
           {/* Refresh Cache Button */}
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-2 bg-white hover:bg-slate-50 rounded-xl shadow-xs border border-slate-200/80 transition-all disabled:opacity-50 text-slate-600 hover:text-indigo-600"
+            className="p-2 bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-xs border border-slate-200/80 dark:border-slate-700 transition-all disabled:opacity-50 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400"
             title="Refresh package list"
           >
             <FiRefreshCw
-              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-indigo-600" : ""}`}
+              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-indigo-600 dark:text-indigo-400" : ""}`}
             />
           </button>
         </div>
@@ -161,8 +172,8 @@ const Header = ({
               onClick={() => onCategoryChange(cat)}
               className={`px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all duration-150 flex items-center gap-1.5 ${
                 isSelected
-                  ? "bg-slate-900 text-white font-semibold shadow-xs"
-                  : "bg-slate-100/70 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900"
+                  ? "bg-slate-900 dark:bg-indigo-600 text-white font-semibold shadow-xs"
+                  : "bg-slate-100/80 dark:bg-slate-800/70 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white border border-transparent dark:border-slate-700/40"
               }`}
             >
               <span>{cat}</span>
@@ -171,7 +182,7 @@ const Header = ({
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                     isSelected
                       ? "bg-white/20 text-white"
-                      : "bg-slate-200/80 text-slate-500"
+                      : "bg-slate-200/80 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
                   }`}
                 >
                   {count}

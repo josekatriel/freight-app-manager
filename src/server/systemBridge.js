@@ -2,20 +2,55 @@ import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
 
-// Cache to prevent re-querying every single second
 let cachedApps = null;
 let lastCacheTime = 0;
 const CACHE_TTL_MS = 10000;
 
 function resolveCategory(catString = "") {
   const lower = catString.toLowerCase();
-  if (lower.includes("graphics") || lower.includes("2dgraphics") || lower.includes("rastergraphics") || lower.includes("vectorgraphics")) return "Graphics";
-  if (lower.includes("audiovideo") || lower.includes("audio") || lower.includes("video") || lower.includes("audiovideoediting")) return "Audio & Video";
-  if (lower.includes("development") || lower.includes("programming") || lower.includes("ide") || lower.includes("texteditor")) return "Development";
-  if (lower.includes("office") || lower.includes("wordprocessor") || lower.includes("spreadsheet") || lower.includes("presentation")) return "Office";
-  if (lower.includes("network") || lower.includes("webbrowser") || lower.includes("instantmessaging") || lower.includes("email") || lower.includes("chat")) return "Internet";
+  if (
+    lower.includes("graphics") ||
+    lower.includes("2dgraphics") ||
+    lower.includes("rastergraphics") ||
+    lower.includes("vectorgraphics")
+  )
+    return "Graphics";
+  if (
+    lower.includes("audiovideo") ||
+    lower.includes("audio") ||
+    lower.includes("video") ||
+    lower.includes("audiovideoediting")
+  )
+    return "Audio & Video";
+  if (
+    lower.includes("development") ||
+    lower.includes("programming") ||
+    lower.includes("ide") ||
+    lower.includes("texteditor")
+  )
+    return "Development";
+  if (
+    lower.includes("office") ||
+    lower.includes("wordprocessor") ||
+    lower.includes("spreadsheet") ||
+    lower.includes("presentation")
+  )
+    return "Office";
+  if (
+    lower.includes("network") ||
+    lower.includes("webbrowser") ||
+    lower.includes("instantmessaging") ||
+    lower.includes("email") ||
+    lower.includes("chat")
+  )
+    return "Internet";
   if (lower.includes("game")) return "Games";
-  if (lower.includes("system") || lower.includes("settings") || lower.includes("packagemanager")) return "System";
+  if (
+    lower.includes("system") ||
+    lower.includes("settings") ||
+    lower.includes("packagemanager")
+  )
+    return "System";
   return "Utilities";
 }
 
@@ -29,11 +64,13 @@ function findIcon(iconName, baseName = "") {
     const searchDirs = [
       "/usr/share/pixmaps",
       "/usr/share/icons/hicolor/scalable/apps",
+      "/usr/share/icons/hicolor/256x256/apps",
       "/usr/share/icons/hicolor/128x128/apps",
       "/usr/share/icons/hicolor/64x64/apps",
       "/usr/share/icons/hicolor/48x48/apps",
       "/usr/share/icons/hicolor/32x32/apps",
       "/usr/share/icons/Yaru/scalable/apps",
+      "/usr/share/icons/Yaru/256x256/apps",
       "/usr/share/icons/Yaru/128x128/apps",
       "/usr/share/icons/Yaru/48x48/apps",
       "/usr/share/icons/Adwaita/scalable/apps",
@@ -55,6 +92,72 @@ function findIcon(iconName, baseName = "") {
   return null;
 }
 
+function getSnapIcon(snapName) {
+  // 1. Search /var/lib/snapd/desktop/applications/<snapName>_*.desktop
+  const desktopDir = "/var/lib/snapd/desktop/applications";
+  if (fs.existsSync(desktopDir)) {
+    try {
+      const files = fs.readdirSync(desktopDir);
+      for (const f of files) {
+        if (f.startsWith(snapName + "_") && f.endsWith(".desktop")) {
+          const content = fs.readFileSync(path.join(desktopDir, f), "utf-8");
+          for (const line of content.split("\n")) {
+            if (line.startsWith("Icon=")) {
+              const iconPath = line.slice(5).trim();
+              if (fs.existsSync(iconPath)) return iconPath;
+            }
+          }
+        }
+      }
+    } catch (_) {}
+  }
+
+  // 2. Search /snap/<snapName>/current/meta/gui/
+  const guiDir = path.join("/snap", snapName, "current/meta/gui");
+  if (fs.existsSync(guiDir)) {
+    try {
+      const candidates = fs.readdirSync(guiDir);
+      for (const c of candidates) {
+        if (c.endsWith(".png") || c.endsWith(".svg")) {
+          return path.join(guiDir, c);
+        }
+      }
+    } catch (_) {}
+  }
+
+  // 3. Fallback to system themes
+  return findIcon(snapName);
+}
+
+function getFlatpakIcon(fullId) {
+  // 1. Export directories
+  const exportDirs = [
+    "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps",
+    "/var/lib/flatpak/exports/share/icons/hicolor/128x128/apps",
+    "/var/lib/flatpak/exports/share/icons/hicolor/64x64/apps",
+    path.join(
+      process.env.HOME || "",
+      ".local/share/flatpak/exports/share/icons/hicolor/scalable/apps"
+    ),
+    path.join(
+      process.env.HOME || "",
+      ".local/share/flatpak/exports/share/icons/hicolor/128x128/apps"
+    ),
+    `/var/lib/flatpak/app/${fullId}/current/active/export/share/icons/hicolor/scalable/apps`,
+    `/var/lib/flatpak/app/${fullId}/current/active/export/share/icons/hicolor/128x128/apps`,
+  ];
+
+  for (const dir of exportDirs) {
+    if (!fs.existsSync(dir)) continue;
+    for (const ext of ["svg", "png"]) {
+      const p = path.join(dir, `${fullId}.${ext}`);
+      if (fs.existsSync(p)) return p;
+    }
+  }
+
+  return findIcon(fullId);
+}
+
 export function getRealAptApps() {
   const dpkgMap = new Map();
   try {
@@ -67,7 +170,7 @@ export function getRealAptApps() {
       if (p.length >= 4) {
         dpkgMap.set(p[0].trim(), {
           version: p[1].trim(),
-          sizeKb: parseInt(p[2]) || 0,
+          sizeKb: parseInt(p[2], 10) || 0,
           desc: p[3].trim(),
         });
       }
@@ -116,10 +219,9 @@ export function getRealAptApps() {
 
           const dpkg = dpkgMap.get(baseName) || dpkgMap.get(key) || {};
           const sizeKb = dpkg.sizeKb || 0;
-          const size = sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : sizeKb ? `${sizeKb} KB` : "45 MB";
+          const size = sizeKb > 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : sizeKb ? `${sizeKb} KB` : "Native";
           const resolvedIcon = findIcon(iconName, baseName);
 
-          // Clean exec command to get path
           const cleanExec = exec.replace(/%[uUfFdi]/g, "").trim();
           const binPath = cleanExec.split(/\s+/)[0] || `/usr/bin/${baseName}`;
 
@@ -133,7 +235,9 @@ export function getRealAptApps() {
             description: comment || dpkg.desc || `Desktop application: ${name}`,
             manager: "apt",
             category: resolveCategory(categories),
-            icon: resolvedIcon ? `/api/system/icon?path=${encodeURIComponent(resolvedIcon)}` : null,
+            icon: resolvedIcon
+              ? `/api/system/icon?path=${encodeURIComponent(resolvedIcon)}`
+              : null,
             desktopFile: fullPath,
           });
         } catch (_) {}
@@ -141,7 +245,6 @@ export function getRealAptApps() {
     } catch (_) {}
   }
 
-  // Stable sort by application name
   apps.sort((a, b) => a.name.localeCompare(b.name));
   return apps;
 }
@@ -176,9 +279,18 @@ export function getRealSnapApps() {
 
       if (!seen.has(name)) {
         seen.add(name);
-        const iconPath = `/snap/${name}/current/meta/gui/icon.png`;
-        const hasIcon = fs.existsSync(iconPath);
-        const iconUrl = hasIcon ? `/api/system/icon?path=${encodeURIComponent(iconPath)}` : null;
+
+        const iconPath = getSnapIcon(name);
+        const iconUrl = iconPath
+          ? `/api/system/icon?path=${encodeURIComponent(iconPath)}`
+          : null;
+
+        let category = "Utilities";
+        if (["firefox", "brave"].includes(name)) category = "Internet";
+        else if (["code", "antigravity"].includes(name)) category = "Development";
+        else if (["steam"].includes(name)) category = "Games";
+        else if (["vlc"].includes(name)) category = "Audio & Video";
+        else if (["stickynotes-dabobroto"].includes(name)) category = "Office";
 
         apps.push({
           name: name.charAt(0).toUpperCase() + name.slice(1),
@@ -189,7 +301,7 @@ export function getRealSnapApps() {
           path: `/snap/bin/${name}`,
           description: `Snap package by ${publisher || "developer"}`,
           manager: "snap",
-          category: "System",
+          category,
           icon: iconUrl,
         });
       }
@@ -203,14 +315,15 @@ export function getRealSnapApps() {
 
 export function getRealFlatpakApps() {
   try {
-    const stdout = execSync("flatpak list --app --columns=application,version,size,description 2>/dev/null", {
-      encoding: "utf-8",
-    });
+    const stdout = execSync(
+      "flatpak list --app --columns=application,version,size,description 2>/dev/null",
+      { encoding: "utf-8" }
+    );
     const lines = stdout.trim().split("\n").filter(Boolean);
     const apps = lines.map((line) => {
       const [id, version, size, description] = line.split("\t");
       const shortName = (id || "App").split(".").pop();
-      const possibleIcon = findIcon(id, shortName);
+      const possibleIcon = getFlatpakIcon(id);
 
       return {
         name: shortName,
@@ -221,8 +334,10 @@ export function getRealFlatpakApps() {
         path: `/var/lib/flatpak/app/${id}`,
         description: description || `Flatpak application: ${id}`,
         manager: "flatpak",
-        category: "Utilities",
-        icon: possibleIcon ? `/api/system/icon?path=${encodeURIComponent(possibleIcon)}` : null,
+        category: "System",
+        icon: possibleIcon
+          ? `/api/system/icon?path=${encodeURIComponent(possibleIcon)}`
+          : null,
       };
     });
     apps.sort((a, b) => a.name.localeCompare(b.name));
@@ -241,9 +356,10 @@ export function getRealStorageUsage() {
 
     let aptSize = 0;
     try {
-      const aptBytes = execSync("dpkg-query -W -f='${Installed-Size}\\n' | awk '{s+=$1} END {print s*1024}'", {
-        encoding: "utf-8",
-      });
+      const aptBytes = execSync(
+        "dpkg-query -W -f='${Installed-Size}\\n' | awk '{s+=$1} END {print s*1024}'",
+        { encoding: "utf-8" }
+      );
       aptSize = parseInt(aptBytes.trim(), 10) || 8000000000;
     } catch (_) {
       aptSize = 8000000000;
@@ -251,7 +367,9 @@ export function getRealStorageUsage() {
 
     let snapSize = 0;
     try {
-      const snapBytes = execSync("du -sb /var/lib/snapd/snaps 2>/dev/null | awk '{print $1}'", { encoding: "utf-8" });
+      const snapBytes = execSync("du -sb /var/lib/snapd/snaps 2>/dev/null | awk '{print $1}'", {
+        encoding: "utf-8",
+      });
       snapSize = parseInt(snapBytes.trim(), 10) || 4000000000;
     } catch (_) {
       snapSize = 4000000000;
@@ -259,7 +377,9 @@ export function getRealStorageUsage() {
 
     let flatpakSize = 0;
     try {
-      const fpBytes = execSync("du -sb /var/lib/flatpak 2>/dev/null | awk '{print $1}'", { encoding: "utf-8" });
+      const fpBytes = execSync("du -sb /var/lib/flatpak 2>/dev/null | awk '{print $1}'", {
+        encoding: "utf-8",
+      });
       flatpakSize = parseInt(fpBytes.trim(), 10) || 2000000000;
     } catch (_) {
       flatpakSize = 2000000000;
