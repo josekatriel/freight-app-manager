@@ -27,16 +27,14 @@ const Usage = () => {
       setLoading(true);
       setError(null);
       if (!isTauri()) {
-        await new Promise((r) => setTimeout(r, 250));
-        setData({
-          apt: 5200000000,
-          snap: 3800000000,
-          flatpak: 6100000000,
-          other: 48000000000,
-          free: 115000000000,
-          total: 178100000000,
-        });
-        return;
+        try {
+          const sRes = await fetch("/api/system/storage");
+          if (sRes.ok) {
+            const realData = await sRes.json();
+            setData(realData);
+            return;
+          }
+        } catch (_) {}
       }
       const res = await invoke('get_storage_usage');
       setData(res);

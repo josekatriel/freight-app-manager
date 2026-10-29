@@ -5,8 +5,11 @@ import AppList from "./components/AppList";
 import { useApps } from "./hooks/useApps";
 import { useGlobalApps } from "./hooks/useGlobalApps";
 import { useUninstall } from "./hooks/useUninstall";
-import { PACKAGE_MANAGERS, filterAppsByManager } from "./utils/appUtils";
-import { filterApps } from "./utils/appUtils";
+import {
+  PACKAGE_MANAGERS,
+  CATEGORIES,
+  filterAndSortApps,
+} from "./utils/appUtils";
 import "./index.css";
 
 import About from "./components/About";
@@ -21,19 +24,37 @@ function App() {
   const [isGlobalSearch, setIsGlobalSearch] = useState(false);
   const [selectedAppForDetails, setSelectedAppForDetails] = useState(null);
 
+  // New UI/UX States
+  const [viewMode, setViewMode] = useState("grid"); // "grid" | "table"
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("name-asc");
+
   const [toastMessage, setToastMessage] = useState(null);
-  
-  const showToast = (text, type = 'success') => setToastMessage({ text, type });
+  const showToast = (text, type = "success") =>
+    setToastMessage({ text, type });
   const clearToast = () => setToastMessage(null);
 
-  const { apps: tabApps, loading: tabLoading, loadingMore: tabLoadingMore, reloadApps: reloadTabApps, loadMore: loadMoreTab, hasMore: tabHasMore } = useApps(activeTab);
-  const { apps: globalApps, loading: globalLoading, reloadApps: reloadGlobalApps } = useGlobalApps();
-  const { 
-    uninstalling, 
-    requestUninstall, 
-    handleConfirmUninstall, 
+  const {
+    apps: tabApps,
+    loading: tabLoading,
+    loadingMore: tabLoadingMore,
+    reloadApps: reloadTabApps,
+    loadMore: loadMoreTab,
+    hasMore: tabHasMore,
+  } = useApps(activeTab);
+
+  const {
+    apps: globalApps,
+    loading: globalLoading,
+    reloadApps: reloadGlobalApps,
+  } = useGlobalApps();
+
+  const {
+    uninstalling,
+    requestUninstall,
+    handleConfirmUninstall,
     handleCancelUninstall,
-    confirmModalConfig
+    confirmModalConfig,
   } = useUninstall(() => {
     if (isGlobalSearch) {
       reloadGlobalApps();
@@ -42,43 +63,98 @@ function App() {
     }
   }, showToast);
 
-  const apps = isGlobalSearch ? globalApps : tabApps;
+  const rawApps = isGlobalSearch ? globalApps : tabApps;
   const loading = isGlobalSearch ? globalLoading : tabLoading;
   const loadingMore = isGlobalSearch ? false : tabLoadingMore;
   const loadMore = isGlobalSearch ? null : loadMoreTab;
   const hasMore = isGlobalSearch ? false : tabHasMore;
 
-  const filteredAppsCount = useMemo(() => filterApps(apps, searchQuery).length, [apps, searchQuery]);
+  // Dynamically calculate category counts for the active apps
+  const categoryCounts = useMemo(() => {
+    const counts = { All: rawApps.length };
+    CATEGORIES.forEach((cat) => {
+      if (cat !== "All") {
+        counts[cat] = rawApps.filter(
+          (a) =>
+            a.category === cat ||
+            (cat === "Utilities" && (!a.category || a.category === "Utilities"))
+        ).length;
+      }
+    });
+    return counts;
+  }, [rawApps]);
+
+  // Sidebar source counts
+  const sidebarCounts = useMemo(() => {
+    if (isGlobalSearch && globalApps.length > 0) {
+      return {
+        [PACKAGE_MANAGERS.APT]: globalApps.filter((a) => a.manager === "apt").length,
+        [PACKAGE_MANAGERS.SNAP]: globalApps.filter((a) => a.manager === "snap").length,
+        [PACKAGE_MANAGERS.FLATPAK]: globalApps.filter((a) => a.manager === "flatpak").length,
+      };
+    }
+    return {
+      [activeTab]: rawApps.length,
+    };
+  }, [isGlobalSearch, globalApps, activeTab, rawApps.length]);
+
+  // Filtered and sorted applications
+  const processedApps = useMemo(() => {
+    return filterAndSortApps(rawApps, searchQuery, selectedCategory, sortBy);
+  }, [rawApps, searchQuery, selectedCategory, sortBy]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setIsGlobalSearch(false);
     setSelectedAppForDetails(null);
+    setSelectedCategory("All");
+  };
+
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setSelectedCategory("All");
   };
 
   return (
-    <div className="flex h-screen bg-transparent">
-      <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {activeTab === 'about' ? (
+    <div className="flex h-screen bg-[#f8fafc] text-slate-800 antialiased overflow-hidden font-sans">
+      {/* Sidebar Navigation */}
+      <Sidebar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        counts={sidebarCounts}
+      />
+
+      {/* Main Workspace */}
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden">
+        {activeTab === "about" ? (
           <About />
-        ) : activeTab === 'usage' ? (
+        ) : activeTab === "usage" ? (
           <Usage />
         ) : (
           <>
+            {/* Rich Header with search, category pills, view toggles */}
             <Header
               activeTab={activeTab}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
-              appCount={filteredAppsCount}
+              appCount={processedApps.length}
+              totalCount={rawApps.length}
               onRefresh={isGlobalSearch ? reloadGlobalApps : reloadTabApps}
               isGlobalSearch={isGlobalSearch}
               onGlobalSearchChange={setIsGlobalSearch}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categoryCounts={categoryCounts}
+              sortBy={sortBy}
+              onSortChange={setSortBy}
             />
 
-            <div className="flex-1 overflow-y-auto p-6">
+            {/* Application List (Grid or Table) */}
+            <div className="flex-1 overflow-y-auto px-6 sm:px-8 pt-4">
               <AppList
-                apps={apps}
+                apps={processedApps}
                 searchQuery={searchQuery}
                 loading={loading}
                 loadingMore={loadingMore}
@@ -87,12 +163,18 @@ function App() {
                 onUninstall={requestUninstall}
                 uninstalling={uninstalling}
                 onAppClick={setSelectedAppForDetails}
+                viewMode={viewMode}
+                onClearFilters={handleClearFilters}
+                onCopyPath={(path) =>
+                  showToast(`Copied ${path} to clipboard!`, "success")
+                }
               />
             </div>
           </>
         )}
       </div>
 
+      {/* App Details Modal */}
       <AppDetailsModal
         app={selectedAppForDetails}
         onClose={() => setSelectedAppForDetails(null)}
@@ -101,17 +183,20 @@ function App() {
         showToast={showToast}
       />
 
+      {/* Confirmation Modal */}
       <ConfirmModal
         isOpen={confirmModalConfig.isOpen}
         onClose={handleCancelUninstall}
         onConfirm={handleConfirmUninstall}
-        title="Confirm Uninstall"
-        message={`Are you sure you want to uninstall ${confirmModalConfig.app?.name}?\n\nA password dialog may appear depending on the package manager.`}
-        isDestructive={true}
+        title={confirmModalConfig.title}
+        message={confirmModalConfig.message}
         confirmText="Uninstall"
+        cancelText="Cancel"
+        isDestructive={true}
       />
 
-      <Toast 
+      {/* Toast Notification */}
+      <Toast
         message={toastMessage?.text}
         type={toastMessage?.type}
         onClose={clearToast}
