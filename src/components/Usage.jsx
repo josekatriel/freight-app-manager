@@ -3,6 +3,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { FiHardDrive, FiPieChart } from 'react-icons/fi';
 import Loader from './Loader';
+import { isTauri } from '../services/appService';
 
 const formatBytes = (bytes) => {
   if (bytes === 0) return '0 B';
@@ -25,6 +26,18 @@ const Usage = () => {
     try {
       setLoading(true);
       setError(null);
+      if (!isTauri()) {
+        await new Promise((r) => setTimeout(r, 250));
+        setData({
+          apt: 5200000000,
+          snap: 3800000000,
+          flatpak: 6100000000,
+          other: 48000000000,
+          free: 115000000000,
+          total: 178100000000,
+        });
+        return;
+      }
       const res = await invoke('get_storage_usage');
       setData(res);
     } catch (err) {

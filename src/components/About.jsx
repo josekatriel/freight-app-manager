@@ -1,8 +1,17 @@
 import React from "react";
 import { FiGithub, FiInfo, FiHeart, FiCode, FiExternalLink, FiCpu, FiLayers, FiGlobe } from "react-icons/fi";
 import { openUrl } from "@tauri-apps/plugin-opener";
+import { isTauri } from "../services/appService";
 
 const About = () => {
+  const handleLink = (url) => {
+    if (isTauri()) {
+      openUrl(url).catch(() => window.open(url, "_blank"));
+    } else {
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <div className="flex-1 overflow-y-auto p-8 flex flex-col items-center">
       <div className="max-w-2xl w-full">
@@ -28,21 +37,21 @@ const About = () => {
           
           <div className="flex flex-wrap gap-3 justify-center">
             <button 
-              onClick={() => openUrl("https://github.com/josekatriel/freight-app-manager")}
+              onClick={() => handleLink("https://github.com/josekatriel/freight-app-manager")}
               className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all active:scale-95 text-sm"
             >
               <FiGithub className="w-4 h-4" />
               <span>GitHub Repo</span>
             </button>
             <button 
-              onClick={() => openUrl("https://github.com/josekatriel/freight-app-manager/releases")}
+              onClick={() => handleLink("https://github.com/josekatriel/freight-app-manager/releases")}
               className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-800 rounded-full font-bold shadow-sm hover:bg-slate-50 transition-all active:scale-95 text-sm"
             >
               <FiExternalLink className="w-4 h-4" />
               <span>Releases</span>
             </button>
             <button 
-              onClick={() => openUrl("https://web-portfolio-omega-brown.vercel.app/")}
+              onClick={() => handleLink("https://web-portfolio-omega-brown.vercel.app/")}
               className="flex items-center gap-2 px-6 py-3 bg-slate-50 border border-slate-200 text-slate-700 rounded-full font-bold shadow-sm hover:bg-slate-100 transition-all active:scale-95 text-sm"
             >
               <FiGlobe className="w-4 h-4" />
@@ -98,7 +107,7 @@ const About = () => {
             </div>
           </div>
           <button
-            onClick={() => openUrl("https://github.com/Huzaifa-code/Nexus-App-Manager")}
+            onClick={() => handleLink("https://github.com/Huzaifa-code/Nexus-App-Manager")}
             className="px-3.5 py-1.5 text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-200 shadow-sm transition-all"
           >
             Upstream
