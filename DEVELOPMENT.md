@@ -1,32 +1,32 @@
 # Development & Debugging Notes
 
-This file contains technical details and commands for developers working on Nexus App Manager.
+This file contains technical details and commands for developers working on Freight App Manager.
 
 ## Cache Layer (SQLite3)
 
-Nexus App Manager uses SQLite3 to cache application data for faster performance. The cache is stored in the local data directory.
+Freight App Manager uses SQLite3 to cache application data for faster performance. The cache is stored in the local data directory.
 
 ### Check Cache Location
 ```bash
-ls -lah ~/.local/share/nexus-app-manager/cache.db
+ls -lah ~/.local/share/freight-app-manager/cache.db
 ```
 
 ### Verify Schema
 ```bash
-sqlite3 ~/.local/share/nexus-app-manager/cache.db ".tables"
-sqlite3 ~/.local/share/nexus-app-manager/cache.db ".schema cache_meta"
-sqlite3 ~/.local/share/nexus-app-manager/cache.db ".schema cached_apps"
+sqlite3 ~/.local/share/freight-app-manager/cache.db ".tables"
+sqlite3 ~/.local/share/freight-app-manager/cache.db ".schema cache_meta"
+sqlite3 ~/.local/share/freight-app-manager/cache.db ".schema cached_apps"
 ```
 
 ### View Cached Data
 ```bash
-sqlite3 ~/.local/share/nexus-app-manager/cache.db "SELECT * FROM cache_meta;"
-sqlite3 ~/.local/share/nexus-app-manager/cache.db "SELECT manager, COUNT(*) as app_count FROM cached_apps GROUP BY manager;"
+sqlite3 ~/.local/share/freight-app-manager/cache.db "SELECT * FROM cache_meta;"
+sqlite3 ~/.local/share/freight-app-manager/cache.db "SELECT manager, COUNT(*) as app_count FROM cached_apps GROUP BY manager;"
 ```
 
 ### Example Interactive Session
 ```bash
-sqlite3 ~/.local/share/nexus-app-manager/cache.db
+sqlite3 ~/.local/share/freight-app-manager/cache.db
 # Inside sqlite prompt:
 sqlite> .tables
 cache_meta   cached_apps

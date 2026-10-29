@@ -38,10 +38,10 @@ const Header = ({ activeTab, searchQuery, onSearchChange, appCount, onRefresh, i
         <div className="flex items-center gap-3">
           <button
             onClick={() => onGlobalSearchChange(!isGlobalSearch)}
-            className={`p-2.5 rounded-full transition-all duration-200 ${
+            className={`p-2.5 rounded-xl transition-all duration-200 ${
               isGlobalSearch
-                ? 'bg-red-100 text-red-600 shadow-sm'
-                : 'bg-white hover:bg-gray-50 text-gray-600 shadow-sm border border-gray-100'
+                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                : 'bg-white hover:bg-slate-50 text-slate-600 shadow-sm border border-slate-200'
             }`}
             title="Search across all package managers"
           >
@@ -50,7 +50,7 @@ const Header = ({ activeTab, searchQuery, onSearchChange, appCount, onRefresh, i
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-2.5 bg-white hover:bg-gray-50 rounded-full shadow-sm border border-gray-100 transition-all duration-200 disabled:opacity-50 text-gray-600"
+            className="p-2.5 bg-white hover:bg-slate-50 rounded-xl shadow-sm border border-slate-200 transition-all duration-200 disabled:opacity-50 text-slate-600 hover:text-indigo-600"
             title="Refresh and clear cache"
           >
             <FiRefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />

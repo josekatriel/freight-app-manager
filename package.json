@@ -1,8 +1,10 @@
 {
-  "name": "nexus-app-manager",
+  "name": "freight-app-manager",
   "private": true,
   "version": "0.6.0",
   "type": "module",
+  "description": "Freight App Manager - Fast, unified Linux package manager for APT, Snap, and Flatpak",
+  "author": "Jose Katriel <josekatriel@gmail.com>",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

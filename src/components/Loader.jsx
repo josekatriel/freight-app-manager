@@ -5,7 +5,7 @@ const Loader = ({
   subtext, 
   type = "dots", 
   colorClass = "bg-blue-500", 
-  spinnerColorClass = "border-red-500", 
+  spinnerColorClass = "border-indigo-600", 
   spinnerSizeClass = "h-12 w-12",
   fullHeight = true 
 }) => {

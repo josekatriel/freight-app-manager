@@ -16,7 +16,7 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, confirmText 
       <div className="relative w-full max-w-sm bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-2xl overflow-hidden flex flex-col transform transition-all">
         <div className="p-6 pb-4">
           <div className="flex items-center gap-4 mb-4">
-            <div className={`p-3 rounded-full flex-shrink-0 ${isDestructive ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'}`}>
+            <div className={`p-3 rounded-full flex-shrink-0 ${isDestructive ? 'bg-rose-50 text-rose-600' : 'bg-indigo-50 text-indigo-600'}`}>
               <FiAlertCircle className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 leading-tight">{title}</h3>
@@ -40,8 +40,8 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, confirmText 
             }}
             className={`px-5 py-2.5 rounded-xl font-bold text-white transition-colors shadow-sm ${
               isDestructive 
-                ? 'bg-red-500 hover:bg-red-600 shadow-red-200' 
-                : 'bg-blue-500 hover:bg-blue-600 shadow-blue-200'
+                ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-200' 
+                : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200'
             }`}
           >
             {confirmText}

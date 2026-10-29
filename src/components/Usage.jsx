@@ -63,8 +63,8 @@ const Usage = () => {
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <div className="bg-white px-8 py-6 border-b border-gray-100 flex items-center gap-4 sticky top-0 z-10 shadow-sm">
-        <div className="w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center">
-          <FiPieChart className="w-6 h-6 text-red-500" />
+        <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center">
+          <FiPieChart className="w-6 h-6 text-indigo-600" />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Storage Usage</h2>
@@ -87,8 +87,8 @@ const Usage = () => {
           </div>
           
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
-              <FiPieChart className="w-6 h-6 text-red-500" />
+            <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center">
+              <FiPieChart className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Space Used</p>

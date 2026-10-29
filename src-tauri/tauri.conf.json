@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Nexus App Manager",
+  "productName": "Freight App Manager",
   "version": "0.6.0",
-  "identifier": "com.nexus-app-manager.app",
+  "identifier": "com.freightpx.app-manager",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Nexus App Manager",
+        "title": "Freight App Manager",
         "width": 1200,
         "height": 800,
         "minWidth": 800,

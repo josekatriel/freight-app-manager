@@ -1,4 +1,4 @@
-# Architecture Diagram - Nexus App Manager Implementation
+# Architecture Diagram - Freight App Manager Implementation
 
 ## System Architecture Overview
 

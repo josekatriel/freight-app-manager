@@ -35,7 +35,7 @@ const AppCard = ({ app, onUninstall, isUninstalling, onClick }) => {
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-gray-50 rounded-xl group-hover:bg-red-50 transition-colors flex-shrink-0 w-12 h-12 flex items-center justify-center overflow-hidden">
+          <div className="p-2 bg-gray-50 rounded-xl group-hover:bg-indigo-50 transition-colors flex-shrink-0 w-12 h-12 flex items-center justify-center overflow-hidden">
             {iconSrc ? (
               <img 
                 src={iconSrc} 
@@ -48,7 +48,7 @@ const AppCard = ({ app, onUninstall, isUninstalling, onClick }) => {
               />
             ) : null}
             <div 
-              className="text-gray-500 group-hover:text-red-500"
+              className="text-gray-500 group-hover:text-indigo-600"
               style={{ display: iconSrc ? 'none' : 'block' }}
             >
               {getManagerIcon(app.manager, "w-6 h-6")}
@@ -88,7 +88,7 @@ const AppCard = ({ app, onUninstall, isUninstalling, onClick }) => {
           className={`p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center ${
             isUninstalling
               ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-red-50 text-red-600 hover:bg-red-500 hover:text-white"
+              : "bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white shadow-sm hover:shadow"
           }`}
           title="Uninstall"
         >

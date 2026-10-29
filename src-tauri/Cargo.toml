@@ -1,8 +1,8 @@
 [package]
-name = "nexus-app-manager"
+name = "freight-app-manager"
 version = "0.6.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Freight App Manager - Tauri backend"
+authors = ["Jose Katriel <josekatriel@gmail.com>"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

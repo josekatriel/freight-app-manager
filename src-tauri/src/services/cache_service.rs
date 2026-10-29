@@ -58,7 +58,7 @@ impl CacheService {
     fn get_db_path() -> PathBuf {
         let data_dir = dirs::data_local_dir()
             .unwrap_or_else(|| PathBuf::from("."))
-            .join("nexus-app-manager");
+            .join("freight-app-manager");
         
         std::fs::create_dir_all(&data_dir).ok();
         data_dir.join("cache.db")

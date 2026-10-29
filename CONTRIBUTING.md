@@ -1,6 +1,6 @@
-# Contributing to Nexus App Manager
+# Contributing to Freight App Manager
 
-First off, thank you for considering contributing to Nexus App Manager! It's people like you that make Nexus App Manager such a great tool.
+First off, thank you for considering contributing to Freight App Manager! It's people like you that make Freight App Manager such a great tool.
 
 ## How Can I Contribute?
 

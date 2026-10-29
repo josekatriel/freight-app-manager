@@ -1,0 +1,75 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F1117"/>
+      <stop offset="100%" stop-color="#181B26"/>
+    </linearGradient>
+
+    <!-- Top Isometric Face -->
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818CF8"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+
+    <!-- Left Isometric Face -->
+    <linearGradient id="leftFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#312E81"/>
+    </linearGradient>
+
+    <!-- Right Isometric Face -->
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4338CA"/>
+      <stop offset="100%" stop-color="#1E1B4B"/>
+    </linearGradient>
+
+    <!-- Accent Glow Lines -->
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#C084FC"/>
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow -->
+    <filter id="boxShadow" x="180" y="200" width="664" height="660" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="32" flood-color="#4F46E5" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- App Rounded Base -->
+  <rect width="1024" height="1024" rx="224" fill="url(#bgGrad)"/>
+  <rect x="2" y="2" width="1020" height="1020" rx="222" stroke="#2B2F40" stroke-width="4" stroke-opacity="0.6"/>
+
+  <!-- Freight Cube Group -->
+  <g filter="url(#boxShadow)">
+    <!-- Top Face -->
+    <polygon points="512,250 760,390 512,530 264,390" fill="url(#topFace)"/>
+    
+    <!-- Left Face -->
+    <polygon points="264,390 512,530 512,774 264,634" fill="url(#leftFace)"/>
+    
+    <!-- Right Face -->
+    <polygon points="512,530 760,390 760,634 512,774" fill="url(#rightFace)"/>
+
+    <!-- Seam & Contour Highlights -->
+    <line x1="512" y1="250" x2="512" y2="530" stroke="#A5B4FC" stroke-width="6" stroke-linecap="round" stroke-opacity="0.6"/>
+    <line x1="264" y1="390" x2="512" y2="530" stroke="#38BDF8" stroke-width="5" stroke-linecap="round" stroke-opacity="0.7"/>
+    <line x1="760" y1="390" x2="512" y2="530" stroke="#C084FC" stroke-width="5" stroke-linecap="round" stroke-opacity="0.7"/>
+    <line x1="512" y1="530" x2="512" y2="774" stroke="#6366F1" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- High-tech Freight Container Grooves on Left Face -->
+    <line x1="326" y1="465" x2="326" y2="595" stroke="#3730A3" stroke-width="6" stroke-linecap="round"/>
+    <line x1="388" y1="500" x2="388" y2="630" stroke="#3730A3" stroke-width="6" stroke-linecap="round"/>
+    <line x1="450" y1="535" x2="450" y2="665" stroke="#3730A3" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- High-tech Freight Container Grooves on Right Face -->
+    <line x1="574" y1="535" x2="574" y2="665" stroke="#2E2870" stroke-width="6" stroke-linecap="round"/>
+    <line x1="636" y1="500" x2="636" y2="630" stroke="#2E2870" stroke-width="6" stroke-linecap="round"/>
+    <line x1="698" y1="465" x2="698" y2="595" stroke="#2E2870" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Central Glowing Freight Symbol (Chevron / Fast Dispatch) -->
+    <path d="M470,366 L512,342 L554,366 L512,390 Z" fill="#EEF2FF"/>
+    <path d="M430,388 L512,342 L594,388" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M448,422 L512,386 L576,422" stroke="url(#accentGlow)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

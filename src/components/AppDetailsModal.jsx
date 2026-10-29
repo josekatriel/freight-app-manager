@@ -145,7 +145,7 @@ const AppDetailsModal = ({ app, onClose, onUninstall, isUninstalling, showToast 
               className="text-left group transition-all"
             >
               <DetailItem 
-                icon={<FiFolder className="w-5 h-5 group-hover:text-red-500 transition-colors" />} 
+                icon={<FiFolder className="w-5 h-5 group-hover:text-indigo-600 transition-colors" />} 
                 label="Install Path (Click to open)" 
                 value={app.path}
                 isFullWidth
@@ -171,7 +171,7 @@ const AppDetailsModal = ({ app, onClose, onUninstall, isUninstalling, showToast 
               className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-bold transition-all ${
                 isUninstalling || updateStatus === "updating"
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-red-50 text-red-600 hover:bg-red-600 hover:text-white shadow-sm"
+                  : "bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white shadow-sm"
               }`}
             >
               {isUninstalling ? (
@@ -193,7 +193,7 @@ const AppDetailsModal = ({ app, onClose, onUninstall, isUninstalling, showToast 
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                     : updateStatus === "available"
                     ? "bg-green-500 text-white hover:bg-green-600 shadow-sm"
-                    : "bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white shadow-sm"
+                    : "bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white shadow-sm"
                 }`}
               >
                 {updateStatus === "checking" || updateStatus === "updating" ? (
