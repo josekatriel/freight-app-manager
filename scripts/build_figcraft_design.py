@@ -452,21 +452,21 @@ def generate_commands():
                 "props": {"fill": surface, "stroke": border, "strokeWeight": 1}
             })
 
-            # Icon Box
+            # Borderless App Icon Frame (40x40, no border, no background box)
             add_cmd("node.create", {
-                "type": "rectangle",
+                "type": "frame",
                 "name": f"CardIcon_{idx}",
                 "parent": artboard_ref,
                 "x": c_x + 16, "y": c_y + 16, "width": 40, "height": 40,
-                "props": {"fill": subtle, "stroke": border, "strokeWeight": 1}
+                "props": {"fills": []}
             })
             add_cmd("node.create", {
                 "type": "text",
                 "name": f"CardIconGlyph_{idx}",
                 "parent": artboard_ref,
-                "x": c_x + 30, "y": c_y + 28,
-                "text": app_name[0],
-                "props": {"fontSize": 16, "fill": ink, "fontFamily": "Inter", "fontStyle": "bold"}
+                "x": c_x + 22, "y": c_y + 22,
+                "text": "●" if idx % 2 == 0 else "■",
+                "props": {"fontSize": 26, "fill": tag_color, "fontFamily": "Inter"}
             })
 
             # Title

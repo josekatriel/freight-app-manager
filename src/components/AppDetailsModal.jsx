@@ -122,23 +122,23 @@ const AppDetailsModal = ({
         {/* Header */}
         <div className="p-5 pb-4 border-b border-[var(--frasto-border)] flex items-start justify-between bg-[var(--frasto-surface-subtle)]">
           <div className="flex items-center gap-3.5">
-            <div className="size-12 bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-2 flex items-center justify-center overflow-hidden flex-shrink-0">
+            <div className="size-12 flex items-center justify-center flex-shrink-0">
               {iconSrc ? (
                 <img
                   src={iconSrc}
                   alt={displayName}
-                  className="size-9 object-contain"
+                  className="size-12 object-contain"
                   onError={(e) => {
                     e.target.style.display = "none";
-                    e.target.nextSibling.style.display = "block";
+                    if (e.target.nextSibling) e.target.nextSibling.style.display = "flex";
                   }}
                 />
               ) : null}
               <div
-                className="text-[var(--frasto-ink-soft)]"
-                style={{ display: iconSrc ? "none" : "block" }}
+                className="size-12 flex items-center justify-center text-[var(--frasto-ink-soft)]"
+                style={{ display: iconSrc ? "none" : "flex" }}
               >
-                {getManagerIcon(app.manager, "w-6 h-6")}
+                {getManagerIcon(app.manager, "w-8 h-8")}
               </div>
             </div>
 

@@ -56,23 +56,23 @@ const AppCard = ({ app, onUninstall, isUninstalling, onClick, onCopyPath }) => {
     >
       {/* Top row: Icon, Name, Category */}
       <div className="flex items-start gap-3 mb-2.5">
-        <div className="size-10 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] p-1.5 flex items-center justify-center flex-shrink-0 group-hover:border-[var(--frasto-ink-soft)] transition-colors overflow-hidden">
+        <div className="size-10 flex items-center justify-center flex-shrink-0">
           {iconSrc ? (
             <img
               src={iconSrc}
               alt={displayName}
-              className="size-7 object-contain"
+              className="size-10 object-contain"
               onError={(e) => {
                 e.target.style.display = "none";
-                e.target.nextSibling.style.display = "block";
+                if (e.target.nextSibling) e.target.nextSibling.style.display = "flex";
               }}
             />
           ) : null}
           <div
-            className="text-[var(--frasto-ink-soft)] group-hover:text-[var(--frasto-ink)] transition-colors"
-            style={{ display: iconSrc ? "none" : "block" }}
+            className="size-10 flex items-center justify-center text-[var(--frasto-ink-soft)]"
+            style={{ display: iconSrc ? "none" : "flex" }}
           >
-            {getManagerIcon(app.manager, "w-5 h-5")}
+            {getManagerIcon(app.manager, "w-6 h-6")}
           </div>
         </div>
 

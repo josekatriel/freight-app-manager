@@ -55,23 +55,23 @@ const AppRow = ({ app, onUninstall, isUninstalling, onClick, onCopyPath }) => {
       {/* Name and Icon */}
       <td className="py-2.5 px-4">
         <div className="flex items-center gap-3">
-          <div className="size-7 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <div className="size-7 flex items-center justify-center flex-shrink-0">
             {iconSrc ? (
               <img
                 src={iconSrc}
                 alt={displayName}
-                className="size-5 object-contain"
+                className="size-7 object-contain"
                 onError={(e) => {
                   e.target.style.display = "none";
-                  e.target.nextSibling.style.display = "block";
+                  if (e.target.nextSibling) e.target.nextSibling.style.display = "flex";
                 }}
               />
             ) : null}
             <div
-              className="text-[var(--frasto-ink-soft)]"
-              style={{ display: iconSrc ? "none" : "block" }}
+              className="size-7 flex items-center justify-center text-[var(--frasto-ink-soft)]"
+              style={{ display: iconSrc ? "none" : "flex" }}
             >
-              {getManagerIcon(app.manager, "w-3.5 h-3.5")}
+              {getManagerIcon(app.manager, "w-4 h-4")}
             </div>
           </div>
           <div className="min-w-0">
