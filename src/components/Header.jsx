@@ -46,18 +46,20 @@ const Header = ({
   };
 
   return (
-    <div className="bg-white/80 dark:bg-[#0E131F]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 px-6 sm:px-8 pt-5 pb-3.5 sticky top-0 z-20 transition-colors duration-200">
+    <div className="bg-[var(--frasto-bg)] border-b border-[var(--frasto-border)] px-6 sm:px-8 pt-5 pb-3 sticky top-0 z-20 transition-colors duration-150">
       {/* Top row */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-4">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-3.5">
         {/* Title & App count */}
-        <div className="min-w-[190px]">
-          <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <span>{isGlobalSearch ? "All Applications" : getTabTitle(activeTab)}</span>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 font-mono border border-slate-200/60 dark:border-slate-700/60">
+        <div className="min-w-[200px]">
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-xl font-extrabold font-display tracking-tight text-[var(--frasto-ink)]">
+              {isGlobalSearch ? "All Applications" : getTabTitle(activeTab)}
+            </h2>
+            <span className="text-xs font-mono font-medium px-2 py-0.5 border border-[var(--frasto-border)] bg-[var(--frasto-surface-subtle)] text-[var(--frasto-ink-muted)]">
               {appCount}
             </span>
-          </h2>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+          </div>
+          <p className="text-xs text-[var(--frasto-ink-muted)] mt-0.5">
             {isGlobalSearch
               ? "All installed package ecosystems on this system"
               : `Active packages managed by ${activeTab.toUpperCase()}`}
@@ -80,28 +82,28 @@ const Header = ({
         {/* Right controls: View Toggle, Sort, Global, Theme, Refresh */}
         <div className="flex items-center gap-2 justify-end flex-wrap">
           {/* View Mode Toggle: Grid vs List */}
-          <div className="flex items-center bg-slate-100/90 dark:bg-slate-800/80 p-0.5 rounded-xl border border-slate-200/70 dark:border-slate-700/60">
+          <div className="flex items-center bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] p-0.5">
             <button
               onClick={() => onViewModeChange("grid")}
-              className={`p-2 rounded-lg transition-all ${
+              className={`p-1.5 transition-colors ${
                 viewMode === "grid"
-                  ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs font-semibold"
-                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                  ? "bg-[var(--frasto-surface)] text-[var(--frasto-ink)] border border-[var(--frasto-border)] font-semibold"
+                  : "text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-ink)]"
               }`}
-              title="Grid View"
+              title="Grid Specimen View"
             >
-              <FiGrid className="w-4 h-4" />
+              <FiGrid className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => onViewModeChange("table")}
-              className={`p-2 rounded-lg transition-all ${
+              className={`p-1.5 transition-colors ${
                 viewMode === "table"
-                  ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs font-semibold"
-                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                  ? "bg-[var(--frasto-surface)] text-[var(--frasto-ink)] border border-[var(--frasto-border)] font-semibold"
+                  : "text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-ink)]"
               }`}
-              title="Table / List View"
+              title="Table / Data View"
             >
-              <FiList className="w-4 h-4" />
+              <FiList className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -110,7 +112,7 @@ const Header = ({
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="text-xs font-semibold bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 py-2 pl-3 pr-7 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-xs appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="text-xs font-medium bg-[var(--frasto-surface)] hover:bg-[var(--frasto-surface-subtle)] text-[var(--frasto-ink)] py-2 pl-3 pr-7 border border-[var(--frasto-border)] appearance-none cursor-pointer focus:outline-none focus:border-[var(--frasto-ink)]"
               title="Sort applications"
             >
               <option value="name-asc">Name (A → Z)</option>
@@ -118,7 +120,7 @@ const Header = ({
               <option value="size-desc">Size (Largest first)</option>
               <option value="size-asc">Size (Smallest first)</option>
             </select>
-            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none text-[var(--frasto-ink-muted)]">
               <FiSliders className="w-3 h-3" />
             </div>
           </div>
@@ -126,10 +128,10 @@ const Header = ({
           {/* Global Search Button */}
           <button
             onClick={() => onGlobalSearchChange(!isGlobalSearch)}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+            className={`px-3 py-2 text-xs font-medium flex items-center gap-1.5 transition-colors border ${
               isGlobalSearch
-                ? "bg-indigo-600 text-white shadow-xs"
-                : "bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 shadow-xs"
+                ? "bg-[var(--frasto-ink)] text-[var(--frasto-bg)] border-[var(--frasto-ink)] font-semibold"
+                : "bg-[var(--frasto-surface)] hover:bg-[var(--frasto-surface-subtle)] text-[var(--frasto-ink)] border-[var(--frasto-border)]"
             }`}
             title="Search across all package managers"
           >
@@ -140,27 +142,31 @@ const Header = ({
           {/* Theme Toggle (Dark / Light) */}
           <button
             onClick={onToggleDarkMode}
-            className="p-2 bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-xs border border-slate-200/80 dark:border-slate-700 transition-all text-slate-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400"
+            className="p-2 bg-[var(--frasto-surface)] hover:bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] transition-colors text-[var(--frasto-ink)]"
             title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            {darkMode ? <FiSun className="w-4 h-4 text-amber-400" /> : <FiMoon className="w-4 h-4 text-slate-600" />}
+            {darkMode ? (
+              <FiSun className="w-3.5 h-3.5 text-amber-500" />
+            ) : (
+              <FiMoon className="w-3.5 h-3.5 text-[var(--frasto-ink)]" />
+            )}
           </button>
 
           {/* Refresh Cache Button */}
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-2 bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-xs border border-slate-200/80 dark:border-slate-700 transition-all disabled:opacity-50 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400"
-            title="Refresh package list"
+            className="p-2 bg-[var(--frasto-surface)] hover:bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] transition-colors disabled:opacity-40 text-[var(--frasto-ink)]"
+            title="Refresh package index"
           >
             <FiRefreshCw
-              className={`w-4 h-4 ${isRefreshing ? "animate-spin text-indigo-600 dark:text-indigo-400" : ""}`}
+              className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`}
             />
           </button>
         </div>
       </div>
 
-      {/* Category Filter Pills (Desktop and Scrollable on Mobile) */}
+      {/* Category Filter Tabs (Frasto Tab Bar) */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none pt-1">
         {CATEGORIES.map((cat) => {
           const isSelected = selectedCategory === cat;
@@ -170,19 +176,19 @@ const Header = ({
             <button
               key={cat}
               onClick={() => onCategoryChange(cat)}
-              className={`px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all duration-150 flex items-center gap-1.5 ${
+              className={`px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5 border ${
                 isSelected
-                  ? "bg-slate-900 dark:bg-indigo-600 text-white font-semibold shadow-xs"
-                  : "bg-slate-100/80 dark:bg-slate-800/70 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white border border-transparent dark:border-slate-700/40"
+                  ? "bg-[var(--frasto-ink)] text-[var(--frasto-bg)] border-[var(--frasto-ink)] font-semibold"
+                  : "bg-[var(--frasto-surface)] text-[var(--frasto-ink)] border-[var(--frasto-border)] hover:bg-[var(--frasto-surface-subtle)]"
               }`}
             >
               <span>{cat}</span>
               {typeof count === "number" && (
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                  className={`text-[10px] px-1 py-0.2 font-mono ${
                     isSelected
-                      ? "bg-white/20 text-white"
-                      : "bg-slate-200/80 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
+                      ? "bg-[var(--frasto-bg)] text-[var(--frasto-ink)]"
+                      : "bg-[var(--frasto-surface-subtle)] text-[var(--frasto-ink-muted)] border border-[var(--frasto-border)]"
                   }`}
                 >
                   {count}

@@ -25,38 +25,40 @@ const About = () => {
     <div className="flex-1 overflow-y-auto p-6 sm:p-8 flex flex-col items-center">
       <div className="max-w-2xl w-full">
         {/* Hero Section */}
-        <div className="bg-white/90 dark:bg-[#131926]/90 backdrop-blur-md rounded-[2.5rem] border border-slate-200/80 dark:border-slate-800 shadow-sm p-10 flex flex-col items-center text-center mb-8 transition-colors">
-          <div className="w-24 h-24 rounded-3xl bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20 overflow-hidden">
+        <div className="bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-8 flex flex-col items-center text-center mb-6 transition-colors">
+          <div className="size-16 bg-[var(--frasto-ink)] text-[var(--frasto-bg)] flex items-center justify-center mb-4 border border-[var(--frasto-border-strong)]">
             <img
               src="/icon.svg"
               alt="Freight App Manager"
-              className="w-16 h-16 object-contain"
+              className="size-10 object-contain invert dark:invert-0"
               onError={(e) => {
                 e.target.style.display = "none";
               }}
             />
           </div>
-          <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-1 tracking-tight">
+          <h1 className="text-2xl font-extrabold font-display text-[var(--frasto-ink)] tracking-tight">
             Freight App Manager
           </h1>
-          <p className="text-indigo-600 dark:text-indigo-400 font-semibold text-sm mb-2">
-            by PixelFreight • Jose Katriel
+          <p className="text-[var(--frasto-ink-muted)] text-xs font-medium mt-1 mb-3">
+            Frasto Design System · PixelFreight · Jose Katriel
           </p>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-300 text-xs font-mono font-medium mb-6 border border-slate-200/60 dark:border-slate-700/60">
-            <span>Version 0.6.0</span>
-            <span>•</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] text-[var(--frasto-ink-muted)] text-[11px] font-mono mb-6">
+            <span>v0.6.0</span>
+            <span>·</span>
             <span>Tauri 2 + React</span>
+            <span>·</span>
+            <span>Frasto UI</span>
           </div>
 
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-2.5 justify-center">
             <button
               onClick={() =>
                 handleLink("https://github.com/josekatriel/freight-app-manager")
               }
-              className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold shadow-lg shadow-indigo-500/20 transition-all active:scale-95 text-sm"
+              className="h-9 px-4 text-xs font-semibold bg-[var(--frasto-ink)] text-[var(--frasto-bg)] border border-[var(--frasto-ink)] flex items-center gap-2 hover:opacity-90 transition-opacity"
             >
-              <FiGithub className="w-4 h-4" />
-              <span>GitHub Repo</span>
+              <FiGithub className="w-3.5 h-3.5" />
+              <span>GitHub Repository</span>
             </button>
             <button
               onClick={() =>
@@ -64,86 +66,86 @@ const About = () => {
                   "https://github.com/josekatriel/freight-app-manager/releases"
                 )
               }
-              className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-full font-bold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-all active:scale-95 text-sm"
+              className="h-9 px-4 text-xs font-semibold bg-[var(--frasto-surface)] border border-[var(--frasto-border)] text-[var(--frasto-ink)] hover:bg-[var(--frasto-surface-subtle)] flex items-center gap-2 transition-colors"
             >
-              <FiExternalLink className="w-4 h-4" />
+              <FiExternalLink className="w-3.5 h-3.5" />
               <span>Releases</span>
             </button>
             <button
               onClick={() =>
-                handleLink("https://web-portfolio-omega-brown.vercel.app/")
+                handleLink("https://frasto.freightpx.com")
               }
-              className="flex items-center gap-2 px-6 py-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-full font-bold shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 transition-all active:scale-95 text-sm"
+              className="h-9 px-4 text-xs font-semibold bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] text-[var(--frasto-ink)] hover:border-[var(--frasto-ink)] flex items-center gap-2 transition-colors"
             >
-              <FiGlobe className="w-4 h-4" />
-              <span>Portfolio</span>
+              <FiGlobe className="w-3.5 h-3.5" />
+              <span>Frasto UI</span>
             </button>
           </div>
         </div>
 
         {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div className="bg-white/80 dark:bg-[#131926]/80 backdrop-blur-md rounded-[1.75rem] border border-slate-200/70 dark:border-slate-800 shadow-sm p-6 group hover:shadow-md transition-all">
-            <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-950/60 rounded-xl flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-              <FiLayers className="w-5 h-5" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          <div className="bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-4">
+            <div className="size-8 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center mb-2.5 text-[var(--frasto-ink)]">
+              <FiLayers className="w-4 h-4" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
+            <h3 className="text-sm font-bold font-display text-[var(--frasto-ink)] mb-1">
               Unified Packaging
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-              Centralized management across APT, Snap, and Flatpak repositories with unified search and filtering.
+            <p className="text-[var(--frasto-ink-muted)] text-xs leading-relaxed">
+              Consolidated management across APT, Snap, and Flatpak repositories with unified search and filtering.
             </p>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#131926]/80 backdrop-blur-md rounded-[1.75rem] border border-slate-200/70 dark:border-slate-800 shadow-sm p-6 group hover:shadow-md transition-all">
-            <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-950/60 rounded-xl flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-              <FiCpu className="w-5 h-5" />
+          <div className="bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-4">
+            <div className="size-8 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center mb-2.5 text-[var(--frasto-ink)]">
+              <FiCpu className="w-4 h-4" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
+            <h3 className="text-sm font-bold font-display text-[var(--frasto-ink)] mb-1">
               Rust SQLite Cache
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-              Ultra-fast application queries powered by local embedded SQLite3 caching for near-instant response times.
+            <p className="text-[var(--frasto-ink-muted)] text-xs leading-relaxed">
+              Fast application queries powered by local embedded SQLite3 caching for near-instant response times.
             </p>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#131926]/80 backdrop-blur-md rounded-[1.75rem] border border-slate-200/70 dark:border-slate-800 shadow-sm p-6 group hover:shadow-md transition-all">
-            <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-950/60 rounded-xl flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-              <FiCode className="w-5 h-5" />
+          <div className="bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-4">
+            <div className="size-8 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center mb-2.5 text-[var(--frasto-ink)]">
+              <FiCode className="w-4 h-4" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
+            <h3 className="text-sm font-bold font-display text-[var(--frasto-ink)] mb-1">
               Tauri 2 Architecture
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-              Extremely light memory usage, native Linux IPC bridges, and robust security isolation.
+            <p className="text-[var(--frasto-ink-muted)] text-xs leading-relaxed">
+              Extremely light memory usage, native Linux IPC bridges, and robust security boundaries.
             </p>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#131926]/80 backdrop-blur-md rounded-[1.75rem] border border-slate-200/70 dark:border-slate-800 shadow-sm p-6 group hover:shadow-md transition-all">
-            <div className="w-10 h-10 bg-indigo-50 dark:bg-indigo-950/60 rounded-xl flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-              <FiHeart className="w-5 h-5" />
+          <div className="bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-4">
+            <div className="size-8 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center mb-2.5 text-[var(--frasto-ink)]">
+              <FiHeart className="w-4 h-4" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-              PixelFreight Design
+            <h3 className="text-sm font-bold font-display text-[var(--frasto-ink)] mb-1">
+              Frasto UI System
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-              Clean aesthetic, obsidian dark mode, glassmorphic accents, and intuitive desktop interaction tuned for daily Linux use.
+            <p className="text-[var(--frasto-ink-muted)] text-xs leading-relaxed">
+              Architectural Swiss modernism, raw paper tactile warmth, zero drop shadows, and sharp precision.
             </p>
           </div>
         </div>
 
         {/* Upstream Attribution */}
-        <div className="bg-slate-50/80 dark:bg-[#131926]/80 rounded-2xl border border-slate-200/60 dark:border-slate-800 p-5 mb-8 flex items-center justify-between gap-4 transition-colors">
+        <div className="bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] p-4 mb-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
-              <FiInfo className="w-5 h-5" />
+            <div className="size-8 bg-[var(--frasto-surface)] border border-[var(--frasto-border)] flex items-center justify-center text-[var(--frasto-ink-muted)] flex-shrink-0">
+              <FiInfo className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                Upstream Project
+              <p className="text-xs font-bold text-[var(--frasto-ink)]">
+                Upstream Attribution
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Forked and evolved from Nexus App Manager by Huzaifa
+              <p className="text-xs text-[var(--frasto-ink-muted)]">
+                Evolved from Nexus App Manager by Huzaifa
               </p>
             </div>
           </div>
@@ -151,18 +153,15 @@ const About = () => {
             onClick={() =>
               handleLink("https://github.com/Huzaifa-code/Nexus-App-Manager")
             }
-            className="px-3.5 py-1.5 text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm transition-all"
+            className="h-7 px-3 text-xs font-medium bg-[var(--frasto-surface)] hover:bg-[var(--frasto-surface-subtle)] text-[var(--frasto-ink)] border border-[var(--frasto-border)] transition-colors"
           >
             Upstream
           </button>
         </div>
 
         {/* Credits */}
-        <div className="text-center text-slate-400 dark:text-slate-500 text-xs font-medium pb-6">
-          <p>© 2026 PixelFreight • Jose Katriel. All rights reserved.</p>
-          <p className="mt-1 flex items-center justify-center gap-1">
-            Engineered with <FiHeart className="text-indigo-500 fill-indigo-500 w-3 h-3" /> for Linux
-          </p>
+        <div className="text-center text-[var(--frasto-ink-soft)] text-xs font-medium pb-6">
+          <p>© 2026 Freightpx • PixelFreight. All rights reserved.</p>
         </div>
       </div>
     </div>

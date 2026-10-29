@@ -65,7 +65,7 @@ const AppDetailsModal = ({
     if (!text) return;
     navigator.clipboard?.writeText(text);
     setCopiedField(fieldName);
-    if (showToast) showToast(`Copied ${fieldName} to clipboard!`, "success");
+    if (showToast) showToast(`Copied ${fieldName} to clipboard`, "success");
     setTimeout(() => setCopiedField(null), 1500);
   };
 
@@ -87,7 +87,7 @@ const AppDetailsModal = ({
         setUpdateStatus("up-to-date");
       }
     } catch (err) {
-      if (showToast) showToast(`Failed to check for updates: ${err}`, "error");
+      if (showToast) showToast(`Failed to check updates: ${err}`, "error");
       setUpdateStatus("idle");
     }
   };
@@ -99,7 +99,7 @@ const AppDetailsModal = ({
       setUpdateStatus("updated");
       if (showToast)
         showToast(
-          `Successfully updated ${displayName} to ${newVersion || "latest"}`,
+          `Updated ${displayName} to ${newVersion || "latest"}`,
           "success"
         );
     } catch (err) {
@@ -113,21 +113,21 @@ const AppDetailsModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-xl bg-white dark:bg-[#131926] rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-150 transition-colors">
+      <div className="relative w-full max-w-xl bg-[var(--frasto-surface)] border border-[var(--frasto-border-strong)] shadow-none flex flex-col max-h-[90vh] transition-colors">
         {/* Header */}
-        <div className="p-6 pb-4 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between bg-slate-50/60 dark:bg-[#0E131F]/90">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 flex items-center justify-center shadow-xs overflow-hidden flex-shrink-0">
+        <div className="p-5 pb-4 border-b border-[var(--frasto-border)] flex items-start justify-between bg-[var(--frasto-surface-subtle)]">
+          <div className="flex items-center gap-3.5">
+            <div className="size-12 bg-[var(--frasto-surface)] border border-[var(--frasto-border)] p-2 flex items-center justify-center overflow-hidden flex-shrink-0">
               {iconSrc ? (
                 <img
                   src={iconSrc}
                   alt={displayName}
-                  className="w-12 h-12 object-contain"
+                  className="size-9 object-contain"
                   onError={(e) => {
                     e.target.style.display = "none";
                     e.target.nextSibling.style.display = "block";
@@ -135,30 +135,30 @@ const AppDetailsModal = ({
                 />
               ) : null}
               <div
-                className="text-slate-400 dark:text-slate-500"
+                className="text-[var(--frasto-ink-soft)]"
                 style={{ display: iconSrc ? "none" : "block" }}
               >
-                {getManagerIcon(app.manager, "w-8 h-8")}
+                {getManagerIcon(app.manager, "w-6 h-6")}
               </div>
             </div>
 
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                <h2 className="text-base font-bold font-display text-[var(--frasto-ink)]">
                   {displayName}
                 </h2>
                 {app.category && (
-                  <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-slate-200/80 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-transparent dark:border-slate-700/60">
+                  <span className="text-[10px] font-medium text-[var(--frasto-info)] bg-[var(--frasto-surface)] border border-[var(--frasto-border)] px-1.5 py-0.2">
                     {app.category}
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs font-mono font-medium text-slate-500 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md">
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-[11px] font-mono text-[var(--frasto-ink-soft)]">
                   v{app.version}
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/50 dark:border-indigo-800/50 px-2 py-0.5 rounded-md">
-                  {app.manager}
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--frasto-ink-muted)]">
+                  · {app.manager}
                 </span>
               </div>
             </div>
@@ -166,48 +166,48 @@ const AppDetailsModal = ({
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 rounded-full transition-colors"
+            className="p-1.5 text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-ink)] border border-transparent hover:border-[var(--frasto-border)] transition-colors"
             title="Close"
           >
-            <FiX className="w-5 h-5" />
+            <FiX className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-5">
+        <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {/* Description */}
           <div>
-            <h4 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1.5">
+            <h4 className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider mb-1">
               Description
             </h4>
-            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-4 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-              {app.description || "No description provided for this package."}
+            <div className="bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] p-3 text-xs text-[var(--frasto-ink)] leading-relaxed">
+              {app.description || "Debian/Linux desktop software package"}
             </div>
           </div>
 
           {/* Metadata Grid */}
           <div>
-            <h4 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">
+            <h4 className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider mb-1.5">
               Package Details
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="space-y-2">
               {/* Path */}
-              <div className="sm:col-span-2 p-3 bg-white dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-800 rounded-xl flex items-center justify-between gap-2">
+              <div className="p-2.5 bg-[var(--frasto-surface)] border border-[var(--frasto-border)] flex items-center justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  <p className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
                     Binary Path
                   </p>
-                  <p className="text-xs font-mono text-slate-800 dark:text-slate-200 truncate" title={app.path}>
+                  <p className="text-xs font-mono text-[var(--frasto-ink)] truncate" title={app.path}>
                     {app.path || "Not specified"}
                   </p>
                 </div>
                 <button
                   onClick={() => copyToClipboard(app.path, "path")}
-                  className="p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex-shrink-0"
+                  className="p-1 border border-transparent hover:border-[var(--frasto-border)] text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-ink)] transition-colors flex-shrink-0"
                   title="Copy path"
                 >
                   {copiedField === "path" ? (
-                    <FiCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <FiCheck className="w-3.5 h-3.5 text-[var(--frasto-positive)]" />
                   ) : (
                     <FiCopy className="w-3.5 h-3.5" />
                   )}
@@ -215,22 +215,22 @@ const AppDetailsModal = ({
               </div>
 
               {/* Package Identifier */}
-              <div className="p-3 bg-white dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-800 rounded-xl flex items-center justify-between gap-2">
+              <div className="p-2.5 bg-[var(--frasto-surface)] border border-[var(--frasto-border)] flex items-center justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  <p className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
                     Identifier
                   </p>
-                  <p className="text-xs font-mono text-slate-800 dark:text-slate-200 truncate">
+                  <p className="text-xs font-mono text-[var(--frasto-ink)] truncate">
                     {app.pkgName || app.name}
                   </p>
                 </div>
                 <button
                   onClick={() => copyToClipboard(app.pkgName || app.name, "identifier")}
-                  className="p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex-shrink-0"
+                  className="p-1 border border-transparent hover:border-[var(--frasto-border)] text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-ink)] transition-colors flex-shrink-0"
                   title="Copy identifier"
                 >
                   {copiedField === "identifier" ? (
-                    <FiCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <FiCheck className="w-3.5 h-3.5 text-[var(--frasto-positive)]" />
                   ) : (
                     <FiCopy className="w-3.5 h-3.5" />
                   )}
@@ -238,11 +238,11 @@ const AppDetailsModal = ({
               </div>
 
               {/* Size */}
-              <div className="p-3 bg-white dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-800 rounded-xl">
-                <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <div className="p-2.5 bg-[var(--frasto-surface)] border border-[var(--frasto-border)]">
+                <p className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
                   Installed Size
                 </p>
-                <p className="text-xs font-mono font-semibold text-slate-800 dark:text-slate-200">
+                <p className="text-xs font-mono text-[var(--frasto-ink)]">
                   {app.size}
                 </p>
               </div>
@@ -250,13 +250,13 @@ const AppDetailsModal = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
+          <div className="pt-2 flex flex-col sm:flex-row gap-2">
             {/* Launch Button */}
             <button
               onClick={handleLaunch}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs transition-all active:scale-98"
+              className="flex-1 h-9 px-4 text-xs font-medium bg-[var(--frasto-ink)] text-[var(--frasto-bg)] border border-[var(--frasto-ink)] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
             >
-              <FiPlay className="w-3.5 h-3.5" />
+              <FiPlay className="w-3 h-3" />
               <span>Launch Application</span>
             </button>
 
@@ -271,17 +271,13 @@ const AppDetailsModal = ({
                   updateStatus === "updating" ||
                   isUninstalling
                 }
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold border transition-all ${
-                  updateStatus === "available"
-                    ? "bg-emerald-600 hover:bg-emerald-700 text-white border-transparent"
-                    : "bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
-                }`}
+                className="flex-1 h-9 px-4 text-xs font-medium border border-[var(--frasto-border)] bg-[var(--frasto-surface)] text-[var(--frasto-ink)] hover:bg-[var(--frasto-surface-subtle)] flex items-center justify-center gap-2 transition-colors"
               >
                 {updateStatus === "checking" || updateStatus === "updating" ? (
-                  <div className="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-current"></div>
+                  <div className="size-3 animate-spin border-b-2 border-current"></div>
                 ) : (
                   <>
-                    <FiLayers className="w-3.5 h-3.5" />
+                    <FiLayers className="w-3 h-3" />
                     <span>
                       {updateStatus === "available"
                         ? `Update to ${newVersion}`
@@ -296,21 +292,21 @@ const AppDetailsModal = ({
             <button
               onClick={() => onUninstall(app)}
               disabled={isUninstalling}
-              className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200/80 dark:border-rose-900/50 transition-colors"
+              className="h-9 px-4 text-xs font-medium border border-[var(--frasto-danger)] text-[var(--frasto-danger)] hover:bg-[var(--frasto-surface-subtle)] flex items-center justify-center gap-2 transition-colors"
             >
-              <FiTrash2 className="w-3.5 h-3.5" />
+              <FiTrash2 className="w-3 h-3" />
               <span>Uninstall</span>
             </button>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 bg-slate-50/70 dark:bg-[#0E131F] border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500">
+        <div className="px-5 py-2.5 bg-[var(--frasto-surface-subtle)] border-t border-[var(--frasto-border)] flex items-center justify-between text-[10px] text-[var(--frasto-ink-soft)]">
           <div className="flex items-center gap-1.5">
-            <FiShield className="w-3 h-3 text-slate-400 dark:text-slate-500" />
-            <span>Verified package metadata</span>
+            <FiShield className="w-3 h-3" />
+            <span>Verified Linux package manifest</span>
           </div>
-          <span className="font-mono">{app.manager.toUpperCase()}</span>
+          <span className="font-mono uppercase">{app.manager}</span>
         </div>
       </div>
     </div>

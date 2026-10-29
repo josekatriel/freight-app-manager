@@ -50,17 +50,17 @@ const AppRow = ({ app, onUninstall, isUninstalling, onClick, onCopyPath }) => {
   return (
     <tr
       onClick={onClick}
-      className="group border-b border-slate-100 dark:border-slate-800/60 hover:bg-indigo-50/40 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
+      className="group border-b border-[var(--frasto-border)] hover:bg-[var(--frasto-surface-subtle)]/60 transition-colors cursor-pointer text-xs"
     >
       {/* Name and Icon */}
-      <td className="py-3 px-4">
+      <td className="py-2.5 px-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:border-indigo-200 dark:group-hover:border-indigo-500/40 transition-colors">
+          <div className="size-7 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center flex-shrink-0 overflow-hidden">
             {iconSrc ? (
               <img
                 src={iconSrc}
                 alt={displayName}
-                className="w-7 h-7 object-contain"
+                className="size-5 object-contain"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextSibling.style.display = "block";
@@ -68,18 +68,18 @@ const AppRow = ({ app, onUninstall, isUninstalling, onClick, onCopyPath }) => {
               />
             ) : null}
             <div
-              className="text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
+              className="text-[var(--frasto-ink-soft)]"
               style={{ display: iconSrc ? "none" : "block" }}
             >
-              {getManagerIcon(app.manager, "w-4 h-4")}
+              {getManagerIcon(app.manager, "w-3.5 h-3.5")}
             </div>
           </div>
           <div className="min-w-0">
-            <p className="font-semibold text-sm text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
+            <p className="font-semibold font-display text-[var(--frasto-ink)] truncate">
               {displayName}
             </p>
             {app.pkgName && app.pkgName !== displayName && (
-              <p className="text-[11px] font-mono text-slate-400 dark:text-slate-500 truncate">
+              <p className="text-[10px] font-mono text-[var(--frasto-ink-soft)] truncate">
                 {app.pkgName}
               </p>
             )}
@@ -88,64 +88,63 @@ const AppRow = ({ app, onUninstall, isUninstalling, onClick, onCopyPath }) => {
       </td>
 
       {/* Category */}
-      <td className="py-3 px-4 hidden md:table-cell">
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
+      <td className="py-2.5 px-4 hidden md:table-cell">
+        <span className="inline-flex items-center px-1.5 py-0.2 text-[10px] font-medium border border-[var(--frasto-border)] bg-[var(--frasto-surface-subtle)] text-[var(--frasto-info)]">
           {app.category || "Utilities"}
         </span>
       </td>
 
       {/* Version */}
-      <td className="py-3 px-4">
-        <span className="font-mono text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/90 border border-slate-200/60 dark:border-slate-700/60 px-2 py-0.5 rounded-md">
+      <td className="py-2.5 px-4">
+        <span className="font-mono text-[11px] text-[var(--frasto-ink-soft)]">
           {app.version}
         </span>
       </td>
 
       {/* Size */}
-      <td className="py-3 px-4 font-mono text-xs text-slate-600 dark:text-slate-400 hidden sm:table-cell">
+      <td className="py-2.5 px-4 font-mono text-[11px] text-[var(--frasto-ink-soft)] hidden sm:table-cell">
         {app.size}
       </td>
 
       {/* Manager Source */}
-      <td className="py-3 px-4 hidden lg:table-cell">
-        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 capitalize">
-          {getManagerIcon(app.manager, "w-3.5 h-3.5")}
-          <span>{app.manager}</span>
-        </div>
+      <td className="py-2.5 px-4 hidden lg:table-cell">
+        <span className="text-[11px] font-mono uppercase text-[var(--frasto-ink-muted)]">
+          {app.manager}
+        </span>
       </td>
 
       {/* Actions */}
-      <td className="py-3 px-4 text-right">
-        <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+      <td className="py-2.5 px-4 text-right">
+        <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={handleCopy}
-            className="p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700 transition-all"
-            title={copied ? "Copied!" : "Copy binary path"}
+            className="p-1 border border-transparent hover:border-[var(--frasto-border)] text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-ink)] transition-colors"
+            title={copied ? "Copied" : "Copy binary path"}
           >
             {copied ? (
-              <FiCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <FiCheck className="w-3.5 h-3.5 text-[var(--frasto-positive)]" />
             ) : (
-              <FiCopy className="w-4 h-4" />
+              <FiCopy className="w-3.5 h-3.5" />
             )}
           </button>
           <button
             onClick={onClick}
-            className="p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-all"
-            title="View Details"
+            className="h-6 px-2 text-[10px] font-medium border border-[var(--frasto-border)] hover:border-[var(--frasto-ink)] bg-[var(--frasto-surface)] text-[var(--frasto-ink)] transition-colors"
+            title="Inspect"
           >
-            <FiInfo className="w-4 h-4" />
+            Inspect
           </button>
           <button
             onClick={() => onUninstall(app)}
             disabled={isUninstalling}
-            className={`p-1.5 rounded-lg transition-all ${
+            className={`h-6 px-2 text-[10px] font-medium border transition-colors ${
               isUninstalling
-                ? "text-slate-300 dark:text-slate-600 cursor-not-allowed"
-                : "text-rose-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                ? "border-[var(--frasto-border)] bg-[var(--frasto-surface-subtle)] text-[var(--frasto-ink-soft)] cursor-not-allowed"
+                : "border-[var(--frasto-border)] hover:border-[var(--frasto-danger)] text-[var(--frasto-ink-muted)] hover:text-[var(--frasto-danger)] hover:bg-[var(--frasto-surface-subtle)]"
             }`}
             title="Uninstall package"
           >
-            <FiTrash2 className="w-4 h-4" />
+            {isUninstalling ? "..." : "Remove"}
           </button>
         </div>
       </td>
@@ -161,17 +160,17 @@ const AppTable = ({
   onCopyPath,
 }) => {
   return (
-    <div className="bg-white dark:bg-[#131926] rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden transition-colors duration-200">
+    <div className="border border-[var(--frasto-border)] bg-[var(--frasto-surface)] overflow-hidden transition-colors duration-150">
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse" data-frasto-table>
           <thead>
-            <tr className="bg-slate-50/75 dark:bg-[#0E131F] border-b border-slate-200/80 dark:border-slate-800/80 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-              <th className="py-3 px-4">Application</th>
-              <th className="py-3 px-4 hidden md:table-cell">Category</th>
-              <th className="py-3 px-4">Version</th>
-              <th className="py-3 px-4 hidden sm:table-cell">Size</th>
-              <th className="py-3 px-4 hidden lg:table-cell">Source</th>
-              <th className="py-3 px-4 text-right">Actions</th>
+            <tr className="bg-[var(--frasto-surface-subtle)] border-b border-[var(--frasto-border)] text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
+              <th className="py-2.5 px-4">Application</th>
+              <th className="py-2.5 px-4 hidden md:table-cell">Category</th>
+              <th className="py-2.5 px-4">Version</th>
+              <th className="py-2.5 px-4 hidden sm:table-cell">Size</th>
+              <th className="py-2.5 px-4 hidden lg:table-cell">Source</th>
+              <th className="py-2.5 px-4 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>

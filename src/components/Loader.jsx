@@ -3,10 +3,8 @@ import React from "react";
 const Loader = ({
   text = "Loading applications...",
   subtext,
-  type = "dots",
-  colorClass = "bg-indigo-600 dark:bg-indigo-400",
-  spinnerColorClass = "border-indigo-600 dark:border-indigo-400",
-  spinnerSizeClass = "h-10 w-10",
+  type = "spinner",
+  spinnerSizeClass = "size-7",
   fullHeight = true,
 }) => {
   const containerClass = fullHeight
@@ -21,17 +19,17 @@ const Loader = ({
         }`}
       >
         <div
-          className={`animate-spin rounded-full ${spinnerSizeClass} border-b-2 ${spinnerColorClass} ${
+          className={`animate-spin ${spinnerSizeClass} border-2 border-[var(--frasto-border)] border-t-[var(--frasto-ink)] ${
             text ? "mb-3" : ""
           }`}
         />
         {text && (
-          <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+          <p className="text-xs font-semibold text-[var(--frasto-ink)]">
             {text}
           </p>
         )}
         {subtext && (
-          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 font-mono">
+          <p className="text-[10px] text-[var(--frasto-ink-soft)] mt-1 font-mono">
             {subtext}
           </p>
         )}
@@ -41,29 +39,15 @@ const Loader = ({
 
   return (
     <div className={containerClass}>
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-2">
         <div className="flex gap-1.5">
-          <div
-            className={`w-2 h-2 ${colorClass} rounded-full animate-bounce`}
-            style={{ animationDelay: "0ms" }}
-          />
-          <div
-            className={`w-2 h-2 ${colorClass} rounded-full animate-bounce`}
-            style={{ animationDelay: "150ms" }}
-          />
-          <div
-            className={`w-2 h-2 ${colorClass} rounded-full animate-bounce`}
-            style={{ animationDelay: "300ms" }}
-          />
+          <div className="size-1.5 bg-[var(--frasto-ink)]" />
+          <div className="size-1.5 bg-[var(--frasto-ink-muted)]" />
+          <div className="size-1.5 bg-[var(--frasto-ink-soft)]" />
         </div>
         {text && (
-          <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+          <div className="text-xs font-medium text-[var(--frasto-ink)]">
             {text}
-          </div>
-        )}
-        {subtext && (
-          <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono">
-            {subtext}
           </div>
         )}
       </div>

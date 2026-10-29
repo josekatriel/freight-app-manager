@@ -24,15 +24,15 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0];
     return (
-      <div className="bg-slate-900/95 dark:bg-[#1E2738]/95 backdrop-blur-md text-white text-xs px-3.5 py-2.5 rounded-xl border border-slate-700/80 shadow-xl">
+      <div className="bg-[var(--frasto-surface)] text-[var(--frasto-ink)] text-xs px-3 py-2 border border-[var(--frasto-border-strong)] shadow-none">
         <div className="flex items-center gap-2 mb-1">
           <span
-            className="w-2.5 h-2.5 rounded-full"
+            className="size-2 shrink-0"
             style={{ backgroundColor: data.payload.color }}
           />
           <span className="font-semibold">{data.name}</span>
         </div>
-        <div className="font-mono text-slate-300">
+        <div className="font-mono text-[var(--frasto-ink-muted)]">
           {formatBytes(data.value)}
         </div>
       </div>
@@ -86,13 +86,13 @@ const Usage = () => {
 
   if (error) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-8 h-full text-rose-500">
-        <p className="text-sm font-semibold mb-3">{error}</p>
+      <div className="flex-1 flex flex-col items-center justify-center p-8 h-full text-[var(--frasto-danger)]">
+        <p className="text-xs font-semibold mb-3">{error}</p>
         <button
           onClick={fetchUsage}
-          className="px-4 py-2 text-xs font-semibold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-xl"
+          className="h-8 px-3 text-xs font-medium border border-[var(--frasto-border)] bg-[var(--frasto-surface)] text-[var(--frasto-ink)] hover:bg-[var(--frasto-surface-subtle)]"
         >
-          Try Again
+          Retry Inspection
         </button>
       </div>
     );
@@ -101,11 +101,11 @@ const Usage = () => {
   if (!data) return null;
 
   const chartData = [
-    { name: "APT Packages", value: data.apt, color: "#F43F5E" },
-    { name: "Snap Packages", value: data.snap, color: "#F97316" },
-    { name: "Flatpak Apps", value: data.flatpak, color: "#0EA5E9" },
-    { name: "Other System Files", value: data.other, color: "#64748B" },
-    { name: "Free Space", value: data.free, color: "#10B981" },
+    { name: "APT Packages", value: data.apt, color: "#991B1B" },
+    { name: "Snap Packages", value: data.snap, color: "#92400E" },
+    { name: "Flatpak Apps", value: data.flatpak, color: "#315B70" },
+    { name: "Other System Files", value: data.other, color: "#66645F" },
+    { name: "Free Space", value: data.free, color: "#166534" },
   ].filter((item) => item.value > 0);
 
   const totalUsed = data.total - data.free;
@@ -114,95 +114,95 @@ const Usage = () => {
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       {/* Top Header */}
-      <div className="bg-white/80 dark:bg-[#0E131F]/90 backdrop-blur-md px-8 py-5 border-b border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between sticky top-0 z-10 transition-colors">
-        <div className="flex items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/50 dark:border-indigo-800/50 flex items-center justify-center flex-shrink-0">
-            <FiPieChart className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+      <div className="bg-[var(--frasto-bg)] px-8 py-5 border-b border-[var(--frasto-border)] flex items-center justify-between sticky top-0 z-10 transition-colors">
+        <div className="flex items-center gap-3">
+          <div className="size-8 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center flex-shrink-0">
+            <FiPieChart className="w-4 h-4 text-[var(--frasto-ink)]" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            <h2 className="text-lg font-bold font-display text-[var(--frasto-ink)] tracking-tight">
               Storage Usage
             </h2>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              Live disk space analysis across package managers on root (/)
+            <p className="text-xs text-[var(--frasto-ink-muted)]">
+              Real disk footprint inspection across system packaging roots
             </p>
           </div>
         </div>
 
         <button
           onClick={fetchUsage}
-          className="p-2 bg-white dark:bg-slate-800/90 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-xs border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all"
+          className="p-2 bg-[var(--frasto-surface)] hover:bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] text-[var(--frasto-ink)] transition-colors"
           title="Refresh storage statistics"
         >
-          <FiRefreshCw className="w-4 h-4" />
+          <FiRefreshCw className="w-3.5 h-3.5" />
         </button>
       </div>
 
       <div className="p-6 sm:p-8 max-w-5xl mx-auto w-full flex-1">
         {/* Top Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          <div className="bg-white dark:bg-[#131926] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center gap-4 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200/50 dark:border-sky-800/50 flex items-center justify-center flex-shrink-0">
-              <FiHardDrive className="w-6 h-6 text-sky-600 dark:text-sky-400" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-[var(--frasto-surface)] p-5 border border-[var(--frasto-border)] flex items-center gap-4">
+            <div className="size-10 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center flex-shrink-0">
+              <FiHardDrive className="w-5 h-5 text-[var(--frasto-ink)]" />
             </div>
             <div>
-              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <p className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
                 Total Disk Space
               </p>
-              <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-0.5 font-mono">
+              <p className="text-lg font-extrabold font-mono text-[var(--frasto-ink)] mt-0.5">
                 {formatBytes(data.total)}
               </p>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-[#131926] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center gap-4 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/50 dark:border-indigo-800/50 flex items-center justify-center flex-shrink-0">
-              <FiPieChart className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+          <div className="bg-[var(--frasto-surface)] p-5 border border-[var(--frasto-border)] flex items-center gap-4">
+            <div className="size-10 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center flex-shrink-0">
+              <FiPieChart className="w-5 h-5 text-[var(--frasto-ink)]" />
             </div>
             <div>
-              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <p className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
                 Used Storage
               </p>
-              <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-0.5 font-mono">
+              <p className="text-lg font-extrabold font-mono text-[var(--frasto-ink)] mt-0.5">
                 {formatBytes(totalUsed)}{" "}
-                <span className="text-xs font-normal text-slate-400">
+                <span className="text-xs font-normal text-[var(--frasto-ink-muted)]">
                   ({percentageUsed}%)
                 </span>
               </p>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-[#131926] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center gap-4 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/50 dark:border-emerald-800/50 flex items-center justify-center flex-shrink-0">
-              <FiHardDrive className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+          <div className="bg-[var(--frasto-surface)] p-5 border border-[var(--frasto-border)] flex items-center gap-4">
+            <div className="size-10 bg-[var(--frasto-surface-subtle)] border border-[var(--frasto-border)] flex items-center justify-center flex-shrink-0">
+              <FiHardDrive className="w-5 h-5 text-[var(--frasto-positive)]" />
             </div>
             <div>
-              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              <p className="text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider">
                 Free Space
               </p>
-              <p className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5 font-mono">
+              <p className="text-lg font-extrabold font-mono text-[var(--frasto-positive)] mt-0.5">
                 {formatBytes(data.free)}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Charts & Breakdown Card */}
-        <div className="bg-white dark:bg-[#131926] rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col md:flex-row transition-colors">
-          <div className="p-8 md:w-1/2 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-slate-200/80 dark:border-slate-800">
-            <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-4 w-full text-left tracking-tight">
-              Storage Distribution
+        {/* Charts & Breakdown */}
+        <div className="bg-[var(--frasto-surface)] border border-[var(--frasto-border)] overflow-hidden flex flex-col md:flex-row">
+          <div className="p-6 md:w-1/2 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-[var(--frasto-border)]">
+            <h3 className="text-xs font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider mb-4 w-full text-left">
+              Disk Distribution
             </h3>
-            <div className="w-full h-72">
+            <div className="w-full h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={chartData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={75}
-                    outerRadius={110}
-                    paddingAngle={3}
+                    innerRadius={65}
+                    outerRadius={95}
+                    paddingAngle={2}
                     dataKey="value"
                     stroke="none"
                   >
@@ -214,9 +214,9 @@ const Usage = () => {
                   <Legend
                     verticalAlign="bottom"
                     height={36}
-                    iconType="circle"
+                    iconType="square"
                     formatter={(value) => (
-                      <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                      <span className="text-[11px] text-[var(--frasto-ink)] font-medium">
                         {value}
                       </span>
                     )}
@@ -226,32 +226,32 @@ const Usage = () => {
             </div>
           </div>
 
-          <div className="p-8 md:w-1/2 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col justify-center">
-            <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-5 tracking-tight">
+          <div className="p-6 md:w-1/2 bg-[var(--frasto-surface-subtle)] flex flex-col justify-center">
+            <h3 className="text-xs font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider mb-4">
               Detailed Breakdown
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {chartData.map((item, index) => {
                 const percent = ((item.value / data.total) * 100).toFixed(1);
                 return (
                   <div
                     key={index}
-                    className="bg-white dark:bg-[#0E131F] p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800/90 shadow-2xs flex items-center justify-between"
+                    className="bg-[var(--frasto-surface)] p-3 border border-[var(--frasto-border)] flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-3 h-3 rounded-full flex-shrink-0"
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className="size-2 shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="font-semibold text-xs text-slate-800 dark:text-slate-200">
+                      <span className="font-medium text-xs text-[var(--frasto-ink)]">
                         {item.name}
                       </span>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-xs font-mono text-slate-900 dark:text-white">
+                      <div className="font-bold text-xs font-mono text-[var(--frasto-ink)]">
                         {formatBytes(item.value)}
                       </div>
-                      <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono mt-0.5">
+                      <div className="text-[10px] text-[var(--frasto-ink-soft)] font-mono">
                         {percent}% of disk
                       </div>
                     </div>

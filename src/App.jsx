@@ -24,9 +24,9 @@ function App() {
   const [isGlobalSearch, setIsGlobalSearch] = useState(false);
   const [selectedAppForDetails, setSelectedAppForDetails] = useState(null);
 
-  // Dark / Light Mode state
+  // Dark / Light Mode state matching Frasto data-theme
   const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem("freight-theme");
+    const saved = localStorage.getItem("frasto-theme") || localStorage.getItem("freight-theme");
     if (saved) return saved === "dark";
     return (
       window.matchMedia &&
@@ -35,12 +35,15 @@ function App() {
   });
 
   useEffect(() => {
+    const root = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("freight-theme", "dark");
+      root.classList.add("dark");
+      root.setAttribute("data-theme", "dark");
+      localStorage.setItem("frasto-theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("freight-theme", "light");
+      root.classList.remove("dark");
+      root.setAttribute("data-theme", "light");
+      localStorage.setItem("frasto-theme", "light");
     }
   }, [darkMode]);
 
@@ -91,7 +94,7 @@ function App() {
   const loadMore = isGlobalSearch ? null : loadMoreTab;
   const hasMore = isGlobalSearch ? false : tabHasMore;
 
-  // Dynamically calculate category counts for the active apps
+  // Dynamically calculate category counts for active apps
   const categoryCounts = useMemo(() => {
     const counts = { All: rawApps.length };
     CATEGORIES.forEach((cat) => {
@@ -138,8 +141,8 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-[#0A0D14] text-slate-800 dark:text-slate-100 antialiased overflow-hidden font-sans">
-      {/* Sidebar Navigation */}
+    <div className="flex h-screen bg-[var(--frasto-bg)] text-[var(--frasto-ink)] antialiased overflow-hidden font-sans select-none">
+      {/* Frasto Architectural Sidebar */}
       <Sidebar
         activeTab={activeTab}
         onTabChange={handleTabChange}
@@ -147,14 +150,14 @@ function App() {
       />
 
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-slate-50/50 dark:bg-[#0A0D14]">
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-[var(--frasto-bg)]">
         {activeTab === "about" ? (
           <About />
         ) : activeTab === "usage" ? (
           <Usage />
         ) : (
           <>
-            {/* Rich Header with search, category pills, view toggles, dark mode */}
+            {/* Frasto Header with search, category tabs, view toggles, theme switcher */}
             <Header
               activeTab={activeTab}
               searchQuery={searchQuery}
@@ -175,7 +178,7 @@ function App() {
               onToggleDarkMode={toggleDarkMode}
             />
 
-            {/* Application List (Grid or Table) */}
+            {/* Application Specimen List (Grid or Table) */}
             <div className="flex-1 overflow-y-auto px-6 sm:px-8 pt-4">
               <AppList
                 apps={processedApps}
@@ -190,7 +193,7 @@ function App() {
                 viewMode={viewMode}
                 onClearFilters={handleClearFilters}
                 onCopyPath={(path) =>
-                  showToast(`Copied ${path} to clipboard!`, "success")
+                  showToast(`Copied ${path} to clipboard`, "success")
                 }
               />
             </div>
@@ -198,7 +201,7 @@ function App() {
         )}
       </div>
 
-      {/* App Details Modal */}
+      {/* App Details Inspector Modal */}
       <AppDetailsModal
         app={selectedAppForDetails}
         onClose={() => setSelectedAppForDetails(null)}

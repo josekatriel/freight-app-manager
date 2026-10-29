@@ -1,5 +1,5 @@
 import React from "react";
-import { FiPackage, FiInfo, FiPieChart, FiActivity } from "react-icons/fi";
+import { FiPackage, FiInfo, FiPieChart } from "react-icons/fi";
 import { SiDebian, SiSnapcraft, SiFlatpak } from "react-icons/si";
 import { PACKAGE_MANAGERS } from "../utils/appUtils";
 
@@ -8,22 +8,16 @@ const SIDEBAR_ITEMS = [
     id: PACKAGE_MANAGERS.APT,
     label: "APT Packages",
     icon: SiDebian,
-    badgeColor: "group-hover:text-rose-500",
-    activeColor: "text-rose-600 dark:text-rose-400",
   },
   {
     id: PACKAGE_MANAGERS.SNAP,
     label: "Snap Packages",
     icon: SiSnapcraft,
-    badgeColor: "group-hover:text-amber-500",
-    activeColor: "text-amber-600 dark:text-amber-400",
   },
   {
     id: PACKAGE_MANAGERS.FLATPAK,
     label: "Flatpak Apps",
     icon: SiFlatpak,
-    badgeColor: "group-hover:text-sky-500",
-    activeColor: "text-sky-600 dark:text-sky-400",
   },
 ];
 
@@ -32,54 +26,52 @@ const GENERAL_ITEMS = [
     id: "usage",
     label: "Storage Usage",
     icon: FiPieChart,
-    activeColor: "text-indigo-600 dark:text-indigo-400",
   },
   {
     id: "about",
     label: "About Freight",
     icon: FiInfo,
-    activeColor: "text-indigo-600 dark:text-indigo-400",
   },
 ];
 
 const Sidebar = ({ activeTab, onTabChange, counts = {} }) => {
   return (
-    <div className="md:w-64 bg-slate-50/90 dark:bg-[#0E131F] border-r border-slate-200/80 dark:border-slate-800/80 flex flex-col h-full flex-shrink-0 select-none transition-colors duration-200">
+    <div className="md:w-60 bg-[var(--frasto-surface-subtle)] border-r border-[var(--frasto-border)] flex flex-col h-full flex-shrink-0 select-none transition-colors duration-150">
       {/* Brand Header */}
-      <div className="p-6 pb-4">
+      <div className="p-5 pb-4 border-b border-[var(--frasto-border)]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center shadow-md shadow-indigo-500/20 overflow-hidden flex-shrink-0">
+          <div className="size-8 bg-[var(--frasto-ink)] text-[var(--frasto-bg)] flex items-center justify-center overflow-hidden flex-shrink-0 border border-[var(--frasto-border-strong)]">
             <img
               src="/icon.svg"
               alt="Freight"
-              className="w-7 h-7 object-contain"
+              className="w-5 h-5 object-contain invert dark:invert-0"
               onError={(e) => {
                 e.target.style.display = "none";
               }}
             />
-            <FiPackage className="w-6 h-6 text-white" />
+            <FiPackage className="w-4 h-4" />
           </div>
           <div>
-            <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">
+            <h1 className="text-base font-extrabold font-display tracking-tight text-[var(--frasto-ink)] leading-none">
               Freight
             </h1>
-            <p className="text-[11px] font-semibold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase mt-0.5">
-              App Manager
+            <p className="text-[9px] font-bold tracking-widest text-[var(--frasto-ink-muted)] uppercase mt-0.5">
+              APP MANAGER
             </p>
           </div>
         </div>
 
-        {/* System Bridge Live Indicator */}
-        <div className="mt-4 flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[11px] font-medium">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>System Connected</span>
+        {/* Host Connected Status Specimen */}
+        <div className="mt-3.5 flex items-center gap-2 px-2.5 py-1 border border-[var(--frasto-border)] bg-[var(--frasto-surface)] text-[var(--frasto-positive)] text-[11px] font-medium">
+          <span className="size-1.5 shrink-0 bg-current" />
+          <span>Host Connected</span>
         </div>
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 px-4 py-3 flex flex-col gap-6 overflow-y-auto">
+      <div className="flex-1 px-3 py-4 flex flex-col gap-6 overflow-y-auto">
         <nav className="space-y-1">
-          <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">
+          <p className="px-3 text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider mb-2">
             Package Sources
           </p>
           {SIDEBAR_ITEMS.map((item) => {
@@ -91,34 +83,25 @@ const Sidebar = ({ activeTab, onTabChange, counts = {} }) => {
               <button
                 key={item.id}
                 onClick={() => onTabChange(item.id)}
-                className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-150 relative group ${
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs transition-colors duration-100 ${
                   isActive
-                    ? "bg-white dark:bg-slate-800/90 text-slate-900 dark:text-white font-semibold shadow-xs border border-slate-200/80 dark:border-slate-700/80"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50"
+                    ? "bg-[var(--frasto-ink)] text-[var(--frasto-bg)] font-semibold border border-[var(--frasto-ink)]"
+                    : "text-[var(--frasto-ink)] hover:bg-[var(--frasto-border)]/50 border border-transparent"
                 }`}
               >
-                <div className="flex items-center gap-3.5 min-w-0">
-                  {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-5 bg-indigo-600 dark:bg-indigo-500 rounded-r-full" />
-                  )}
-                  <Icon
-                    className={`w-4 h-4 transition-transform duration-150 flex-shrink-0 ${
-                      isActive
-                        ? item.activeColor
-                        : `text-slate-400 dark:text-slate-500 group-hover:scale-110 ${item.badgeColor}`
-                    }`}
-                  />
-                  <span className="hidden md:block tracking-tight text-sm truncate">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="hidden md:block tracking-tight truncate">
                     {item.label}
                   </span>
                 </div>
 
                 {typeof count === "number" && (
                   <span
-                    className={`hidden md:inline-flex text-[11px] font-mono px-2 py-0.5 rounded-full ${
+                    className={`hidden md:inline-flex text-[11px] font-mono px-1.5 py-0.2 ${
                       isActive
-                        ? "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-bold"
-                        : "bg-slate-200/60 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium group-hover:bg-slate-200 dark:group-hover:bg-slate-700"
+                        ? "bg-[var(--frasto-bg)] text-[var(--frasto-ink)] font-bold"
+                        : "bg-[var(--frasto-surface)] text-[var(--frasto-ink-muted)] border border-[var(--frasto-border)]"
                     }`}
                   >
                     {count}
@@ -130,7 +113,7 @@ const Sidebar = ({ activeTab, onTabChange, counts = {} }) => {
         </nav>
 
         <nav className="space-y-1">
-          <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">
+          <p className="px-3 text-[10px] font-bold text-[var(--frasto-ink-muted)] uppercase tracking-wider mb-2">
             System & Info
           </p>
           {GENERAL_ITEMS.map((item) => {
@@ -141,23 +124,14 @@ const Sidebar = ({ activeTab, onTabChange, counts = {} }) => {
               <button
                 key={item.id}
                 onClick={() => onTabChange(item.id)}
-                className={`w-full flex items-center gap-3.5 px-4 py-2.5 rounded-xl transition-all duration-150 relative group ${
+                className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs transition-colors duration-100 ${
                   isActive
-                    ? "bg-white dark:bg-slate-800/90 text-slate-900 dark:text-white font-semibold shadow-xs border border-slate-200/80 dark:border-slate-700/80"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50"
+                    ? "bg-[var(--frasto-ink)] text-[var(--frasto-bg)] font-semibold border border-[var(--frasto-ink)]"
+                    : "text-[var(--frasto-ink)] hover:bg-[var(--frasto-border)]/50 border border-transparent"
                 }`}
               >
-                {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-5 bg-indigo-600 dark:bg-indigo-500 rounded-r-full" />
-                )}
-                <Icon
-                  className={`w-4 h-4 transition-transform duration-150 flex-shrink-0 ${
-                    isActive
-                      ? item.activeColor
-                      : "text-slate-400 dark:text-slate-500 group-hover:scale-110 group-hover:text-slate-700 dark:group-hover:text-slate-300"
-                  }`}
-                />
-                <span className="hidden md:block tracking-tight text-sm">
+                <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                <span className="hidden md:block tracking-tight">
                   {item.label}
                 </span>
               </button>
@@ -166,10 +140,10 @@ const Sidebar = ({ activeTab, onTabChange, counts = {} }) => {
         </nav>
       </div>
 
-      {/* Footer Branding */}
-      <div className="p-4 border-t border-slate-200/80 dark:border-slate-800/80 text-center">
-        <span className="text-[11px] font-mono font-medium text-slate-400 dark:text-slate-500">
-          v0.6.0 • PixelFreight
+      {/* Footer Attribution */}
+      <div className="p-3.5 border-t border-[var(--frasto-border)] text-center">
+        <span className="text-[10px] font-mono text-[var(--frasto-ink-soft)]">
+          Frasto UI · PixelFreight
         </span>
       </div>
     </div>

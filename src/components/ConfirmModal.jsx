@@ -17,38 +17,38 @@ const ConfirmModal = ({
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-sm bg-white dark:bg-[#131926] rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col transform transition-all">
-        <div className="p-6 pb-4">
-          <div className="flex items-center gap-3.5 mb-4">
+      <div className="relative w-full max-w-sm bg-[var(--frasto-surface)] border border-[var(--frasto-border-strong)] shadow-none flex flex-col">
+        <div className="p-5 pb-4">
+          <div className="flex items-center gap-3 mb-3">
             <div
-              className={`p-3 rounded-2xl flex-shrink-0 ${
+              className={`size-8 border flex items-center justify-center flex-shrink-0 ${
                 isDestructive
-                  ? "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-900/50"
-                  : "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-900/50"
+                  ? "bg-[var(--frasto-surface-subtle)] border-[var(--frasto-danger)] text-[var(--frasto-danger)]"
+                  : "bg-[var(--frasto-surface-subtle)] border-[var(--frasto-border)] text-[var(--frasto-ink)]"
               }`}
             >
-              <FiAlertCircle className="w-5 h-5" />
+              <FiAlertCircle className="w-4 h-4" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">
+            <h3 className="text-sm font-bold font-display text-[var(--frasto-ink)]">
               {title}
             </h3>
           </div>
-          <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl p-4 border border-slate-100 dark:border-slate-800/80">
-            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+          <div className="bg-[var(--frasto-surface-subtle)] p-3 border border-[var(--frasto-border)]">
+            <p className="text-xs text-[var(--frasto-ink-muted)] leading-relaxed whitespace-pre-line">
               {message}
             </p>
           </div>
         </div>
 
-        <div className="p-4 bg-slate-50/70 dark:bg-[#0E131F] border-t border-slate-100 dark:border-slate-800 flex items-center gap-2.5 justify-end">
+        <div className="p-3 bg-[var(--frasto-surface-subtle)] border-t border-[var(--frasto-border)] flex items-center gap-2 justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-slate-800 transition-colors"
+            className="h-8 px-3 text-xs font-medium text-[var(--frasto-ink)] bg-[var(--frasto-surface)] border border-[var(--frasto-border)] hover:bg-[var(--frasto-surface-subtle)] transition-colors"
           >
             {cancelText}
           </button>
@@ -57,10 +57,10 @@ const ConfirmModal = ({
               onConfirm();
               onClose();
             }}
-            className={`px-4 py-2 rounded-xl text-xs font-bold text-white transition-colors shadow-xs ${
+            className={`h-8 px-3 text-xs font-semibold text-white transition-opacity ${
               isDestructive
-                ? "bg-rose-600 hover:bg-rose-700 shadow-rose-500/20"
-                : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-500/20"
+                ? "bg-[var(--frasto-danger)] border border-[var(--frasto-danger)]"
+                : "bg-[var(--frasto-ink)] border border-[var(--frasto-ink)]"
             }`}
           >
             {confirmText}
